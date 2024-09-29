@@ -1,0 +1,4369 @@
+Linux Tools
+
+Copy/Paste/Cut Text in Nano
+To mark a text press Ctrl + ^ then move the cursors with the arrow keys. 
+To copy the marked text press Alt + ^. To cut the marked text press ^K (Ctrl +K)
+
+# Extracting files
+tar -xvzf community_images.tar.gz
+
+    f: this must be the last flag of the command, and the tar file must be immediately after.
+       It tells tar the name and path of the compressed file.
+    z: tells tar to decompress the archive using gzip
+    x: tar can collect files or extract them. x does the latter.
+    v: makes tar talk a lot. Verbose output shows you all the files being extracted.
+
+gzip -d file.gz
+
+# Gunzip:
+$ gunzip file.gz
+
+dpkg -i package-name-here.deb
+dpkg --install package-name-here.deb
+dpkg -i -R /path/to/dir/name/with/lots/of/dot-deb-files/
+dpkg -i --recursive /path/to/dir/name/with/lots/of/dot-deb-files/F
+
+sudo nano /etc/netplan/01-network-manager-all.yaml
+------------------------------------------------------------------------------------------
+Installing any program via source code:
+
+Uncompress Name
+cd Name
+./configure
+
+make
+
+make install 
+
+run ./configure && make && sudo make install
+
+--------------------------------------------------------------
+To install a library from the source using setup.py:
+
+python3 setup.py install
+
+--------------------------------------------------------------
+
+Installing from a .sh file:
+
+$ bash File.sh
+
+Installing a new user
+
+adduser <name>
+usermod -aG sudo <name>
+
+---------------------------------------------------------
+Moving Subdirectories to another one:
+
+sudo mv /home/oscar/Python/* /home/oscar/Python/Examples/
+
+
+How to Set File Permissions:
+
+- u  g  o
+-rw-r--r-- ---> -USER-GROUP-OTHERS
+
+chmod u=rx file        (Give the owner rx permissions, not w)
+
+OR
+
+N   Description                      ls   binary    
+0   No permissions at all            ---  000
+1   Only execute                     --x  001
+2   Only write                       -w-  010
+3   Write and execute                -wx  011
+4   Only read                        r--  100
+5   Read and execute                 r-x  101
+6   Read and write                   rw-  110
+7   Read, write, and execute         rwx  111
+
+
+
+How to Change the Owner of a File: (first)
+
+sudo chown new-owner  <filename>
+
+How to Change Group Ownership of a File: (second)
+
+sudo chgrp new-group <filename>
+
+
+cp -R Pictures Pictures_backup  ---> Copies folder Pictures to Pictures_backup
+
+sudo mv /root/folder1 /home/folder2/ ---->moves folder1 into fo
+
+-------------------------------------------------------------
+ 
+rmdir <empty directory>
+rm -r - i <subdirectory> | Removes directorio and subdirectorios prompting before deletion
+rm -rvf <directory>
+    -r = remove directories and their contents recursively
+    -v = explain what is being done
+    -f = ignore nonexistent files, never prompt
+--------------------------------------------------------------------------------------
+cp -avr <source> <destination> ----> Copies an entire folder including subdirectories.
+ex: cp -avr * /home/oscar/Python/
+
+
+ls -l | sort d
+ls -lh ----> shows file size in M or K
+ls -lah ---> shows hidden files
+
+fdisk -l ----> Checks partitions (HArd drives)
+
+ 
+netstat -tupan ----> Active inetrnet connections
+
+df --total----------> Displays Hard disk usaage
+df -H -------> Displays hard disk partition size in MB, GB or TB
+fdisk -l | grep Disk ----> Displays total hard disk si
+
+lscpu ----> Displays CPU Info
+
+ls -l --color=auto
+----------------------------------------------------------------------------------------------
+
+Installing a .bin file
+
+- check the file : $file example.bin
+- chmod +x NameOfYourFile.bin
+- ./NameOfYourFile.bin
+
+------------------------------------------------
+
+ /etc/network/interfaces
+
+auto ens160
+    allow-hotplug ens160
+    iface ens160 inet dhcp
+or
+    auto eth0
+    iface eth0 inet static
+        address 192.0.2.7
+        netmask 255.255.255.0
+        gateway 192.0.2.254
+         up route add -net 192.0.0.0 netmask 255.0.0.0 gw 192.0.2.1   ----> Adding static route
+
+For DNS:
+
+Install the resolvconf package.
+
+sudo apt install resolvconf
+
+Edit /etc/resolvconf/resolv.conf.d/head and add the following:
+
+# Make edits to /etc/resolvconf/resolv.conf.d/head
+nameserver 8.8.4.4
+nameserver 8.8.8.8
+
+DNS1: 216.7.159.195
+DNS2:216.7.159.133
+
+Restart the resolvconf service
+
+
+-------------------------------------------------------------
+Permanent DNS config:
+
+- Go to your Terminal and type "sudo bash"  This will give you super user privilege.
+
+- mv /etc/resolv.conf /etc/resolv.conf.bak
+
+- echo  nameserver 8.8.8.8  > /etc/resolv.conf
+
+- cat /etc/resolv.conf
+
+--------------------------------------------------------------------
+
+
+Temporary:
+
+# ip addr add 10.102.66.200/24 dev enp0s25
+# route add -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.10.1 dev eth0 
+
+ The ip can then be used to set the link up or down.
+
+ip link set dev enp0s25 up
+ip link set dev enp0s25 down
+sudo servisudo
+ip route show
+default via 10.102.66.1 dev eth0 proto dhcp src 10.102.66.200 metric 100
+10.102.66.0/24 dev eth0 proto kernel scope link src 10.102.66.200
+10.102.66.1 dev eth0 proto dhcp scope link src 10.102.66.200 metric 100
+
+
+sudo lshw -C network ---> NIC Cards tech spec       
+
+Then you can stop/start/restart networking with:
+sudo /etc/init.d/networking start
+sudo /etc/init.d/networking stop
+sudo /etc/init.d/networking restart -------------------------------------> WORKS!
+sudo systemctl restart networking ---------------------------------------> WORKS!
+
+----------------------------------------------------------
+
+dmesg | grep -i <"eth" or "ens"> ----> 
+ip a --------------------------------> Finds the name of new network interfaces 
+ip link show ------------------------>
+ip l ------> Link State
+ip r s ----> IP routes
+
+-------------------------------------------------------------- 
+IP ROUTES
+
+netstat -rn
+ip route show default 0.0.0.0/0
+
+
+-----------------------------------------------
+# adduser foo sudo
+-------------------------------------------------
+ 
+MOdifying grub
+
+update-grub
+
+/boot/vmlinuz-3.2.0-4-amd64
+
+etc/default/grub
+
+---------------------------------------------------------
+How to get the linux version
+
+/etc/cat debian_version ------Debian
+lsb_release -a ------- Ubuntu
+
+How to get the linux kernel package
+
+ls /boot
+
+----------------------------------------------------------------------
+ 
+How to obtain the Linux kernel Version installed
+
+uname -r
+
+--------------------------------------------------------------------------
+
+Installing VMWare if
+
+
+    Ubuntu
+        sudo apt-get install open-vm-tools-desktop
+    Debian
+        sudo apt-get install open-vm-tools
+
+ 
+-----------------------------------------------------------------------------
+
+grep command is used to search files for a specific text.  na
+
+grep gateway /etc/network/interfaces
+
+--------------------------------------------------------------------------
+
+REMOVING SUB_DIRECTORY
+
+rm -rf <Subdirectory>
+
+------------------------------------------------------------------
+
+
+Installing VMWare if
+
+
+    Ubuntu
+        sudo apt-get install open-vm-tools-desktop
+    Debian
+        sudo apt-get install open-vm-tools
+
+-------------------------------------------------
+ 
+
+echo $SHELL     Displays the shell used
+ps -p $$         Same
+echo $0          Same
+
+To change to bash:
+chsh -s /bin/bash
+-Reset after this
+ 
+--------------------
+
+free     Checks memory usage
+
+ipconfig / renew
+--------------------------
+
+netstat -tlpn    > Active internet connections
+
+-------------------------------------------------------------------------------------
+In order to compile kernel, the following should be installed:
+
+- gcc
+- make
+- Linux Headers
+
+apt-get install build-essential
+apt-get install linux-headers-$(uname -r)
+sudo apt-get install libncurses5-dev ---> Some times needed
+
+You can verify gcc compiler and make tool using the following syntax:
+$ whereis gcc make
+$ gcc -v
+$ make -v
+
+------------------------------------------------------------------------------------
+To install a package:
+
+make clean
+git pull
+./autogen.sh
+./configure --enable-debug
+make
+sudo make install
+-------------------------------------------------------------------------------------------
+To remove a package:
+
+sudo make uninstall
+
+if that doesn't work find the program's name andf manually remove files/directories
+
+whereis php
+
+The above command lists directories where the binaries are installed ex: /usr/local/bin/php, /usr/bin/php .. remove each file/directory listed in your output.
+
+sudo rm -f  /usr/local/bin/php 
+
+------------------------------------------------------------
+DKMS is a method to recompile kernel modules locally whenever the rest of the kernel changes. This means that you do not add a ppa: instead you download the package once and install it, confirm that it fixes your problem, and you're done. When you install a new kernel, as you regularly do if you have the updates repository enabled (this is recommended), DKMS will automatically recompile your existing DKMS package to fit the new kernel. 
+
+apt-get install dkms
+
+----------------------------------------------------------------
+ 
+script to run commands in the beginning of shell.
+
+~/.bashrc
+
+$ source ~/.bashrc --->
+
+-----------------------------------------------------------------
+Prompt setup
+
+PS1="\w$ "
+
+Change color
+
+export PS1="\e[1;36m[\u@\h \W]\$ \e[m "
+
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\aadmin@HOL-01\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\admin@HOL-01\h:\w\$ '
+
+  
+-----------------------------------------------------------
+If you always want the latest version with all new features and bugfixes, use Scapy s GitHub repository:
+
+    Install git version control system. For example, on Debian/Ubuntu use:
+
+    $ sudo apt-get install git
+
+    Check out a clone of Scapy s repository:
+
+    $ git clone https://github.com/phaethon/scapy
+
+    Install Scapy in the standard distutils way:
+
+    $ cd scapy
+    $ sudo python3 setup.py install
+
+
+    pip3 install scapy-python3
+----------------------------------------------------------------------
+ 
+which python3 ---> Returns path of file or directory
+
+
+
+-----------------------------------------------------------
+Copyng subdirectories:
+
+cp -r /home/oscar/Tmp/ /etc
+
+and if you want to copy all the same attributes (aka owner, etc.):
+
+cp -a <source> <target>
+
+ 
+--------------------------------------------------------------------
+
+Installing a Python package
+
+    - Download the package
+    - unzip it if it is zipped
+    - cd into the directory containing setup.py
+    - type in python setup.py install
+----------------------------------------------------------------------------
+
+FLENT
+
+Install Flent: 
+  apt-get install flent
+
+  pip install flent
+
+Install netperf Version 2.7.0:
+
+- login as root
+  sudo su
+
+- Download:
+   https://github.com/HewlettPackard/netperf/releases
+
+- Decompress: 
+   tar -xvzf netperf-netperf-2.7.0.tar.gz
+
+- Compile:
+   ./configure --enable-demo
+
+- Install:
+   make
+   make install  
+   make uninstall ---> If need to renove installation     
+
+- Check
+  netperf -V 
+    
+   apt-get install netperf
+
+   dnf install flent
+
+flent --list-tests
+
+flent rrul -H 172.20.130.122 ---> HOL-01
+
+flent rrul -p all_scaled -l 60 -H address-of-netserver -t text-to-be-included-in-plot -o filename.png
+
+flent tcp_upload -p totals -l 60 -H address-of-netserver -t text-to-be-included-in-plot -o filename.png
+
+flent tcp_download -p totals -l 60 -H address-of-netserver -t text-to-be-included-in-plot -o filename.png
+
+flent-gui -----> Starts GUI
+
+/usr/share/flent/flent/tests#
+
+flent MaestroIQ-TEST1.Ver.1.5 172.16.21.34 -l 3000
+
+
+
+include("netperf_definitions.inc")
+
+
+
+(Server Computer 1) Run Netperf in Server mode to listen from the client:
+
+netserver &
+
+(Client Computer 2)
+
+
+flent rrul -p .....
+
+ 
+---------------------------------------------------------------------------------------
+
+Find a process
+
+ps -A
+ps -ef | grep netserver
+
+If you wish to stop type -----> service netperf stop
+
+$ ps aux | grep "emacs"
+username  3896  0.0  2.2  56600 44468 ?        Ss   Sep30   4:29 emacs
+username 22843  0.0  0.0   3900   840 pts/11   S+   08:49   0:00 grep emacs
+
+The number listed in the second column from the left is the PID, which is 3896
+
+use Kill PID
+
+------------------------------------------------------------------------------------------
+
+                                             IPERF3
+
+Client:
+
+#iperf -c 10.1.1.1
+------------------------------------------------------------
+Client connecting to 10.1.1.1, TCP port 5001
+TCP window size: 16384 Byte (default)
+------------------------------------------------------------
+ 
+#iperf -s
+------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 8.00 KByte (default)
+------------------------------------------------------------ 
+
+
+ Data formatting: (-f argument)
+
+The -f argument can display the results in the desired format: bits(b), bytes(B), kilobits(k), kilobytes(K), megabits(m), megabytes(M), gigabits(g) or gigabytes(G).
+Generally the bandwidth measures are displayed in bits (or Kilobits, etc ...) and an amount of data is displayed in bytes (or Kilobytes, etc ...).
+
+#iperf -c 10.1.1.1 -f b
+------------------------------------------------------------
+Client connecting to 10.1.1.1, TCP port 5001
+TCP window size: 16384 Byte (default)
+------------------------------------------------------------
+[ 3] local 10.6.2.5 port 54953 connected with 10.1.1.1 port 5001
+[ 3]   0.0-10.2 sec   1359872 Bytes   1064272 bits/sec
+
+
+ Bi-directional bandwidth measurement: (-r argument)
+
+The Iperf server connects back to the client allowing the bi-directional bandwidth measurement. By default, only the bandwidth from the client to the server is measured.
+If you want to measure the bi-directional bandwidth simultaneously, use the -d keyword. (See next test.)
+
+Client side:
+
+#iperf -c 10.1.1.1 -r
+------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+------------------------------------------------------------
+Client connecting to 10.1.1.1, TCP port 5001
+TCP window size: 16.0 KByte (default)
+------------------------------------------------------------
+[ 5] local 10.6.2.5 port 35726 connected with 10.1.1.1 port 5001
+[ 5]   0.0-10.0 sec   1.12 MBytes   936 Kbits/sec
+[ 4] local 10.6.2.5 port 5001 connected with 10.1.1.1 port 1640
+[ 4]   0.0-10.1 sec   74.2 MBytes   61.7 Mbits/sec
+
+Server side:
+
+#iperf -s
+------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 8.00 KByte (default)
+------------------------------------------------------------
+[852] local 10.1.1.1 port 5001 connected with 10.6.2.5 port 54355
+[ ID]   Interval          Transfer        Bandwidth
+[852]   0.0-10.1 sec   1.15 MBytes   956 Kbits/sec
+------------------------------------------------------------
+Client connecting to 10.6.2.5, TCP port 5001
+TCP window size: 8.00 KByte (default)
+------------------------------------------------------------
+[824] local 10.1.1.1 port 1646 connected with 10.6.2.5 port 5001
+[ ID]   Interval          Transfer        Bandwidth
+[824]   0.0-10.0 sec   73.3 MBytes   61.4 Mbits/sec
+
+
+Simultaneous bi-directional bandwidth measurement: (-d argument)
+Also check the "Jperf" section.
+
+To measure the bi-directional bandwidths simultaneousely, use the -d argument. If you want to test the bandwidths sequentially, use the -r argument (see previous test).
+By default (ie: without the -r or -d arguments), only the bandwidth from the client to the server is measured.
+
+Client side:
+
+#iperf -c 10.1.1.1 -d
+------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+------------------------------------------------------------
+Client connecting to 10.1.1.1, TCP port 5001
+TCP window size: 16.0 KByte (default)
+------------------------------------------------------------
+[ 5] local 10.6.2.5 port 60270 connected with 10.1.1.1 port 5001
+[ 4] local 10.6.2.5 port 5001 connected with 10.1.1.1 port 2643
+[ 4] 0.0-10.0 sec 76.3 MBytes 63.9 Mbits/sec
+[ 5] 0.0-10.1 sec 1.55 MBytes 1.29 Mbits/sec
+
+Server side:
+
+#iperf -s 
+
+ UDP tests: (-u), bandwidth settings (-b)
+Also check the "Jperf" section.
+
+The UDP tests with the -u argument will give invaluable information about the jitter and the packet loss. If you don't specify the -u argument, Iperf uses TCP.
+To keep a good link quality, the packet loss should not go over 1 %. A high packet loss rate will generate a lot of TCP segment retransmissions which will affect the bandwidth.
+
+The jitter is basically the latency variation and does not depend on the latency. You can have high response times and a very low jitter. The jitter value is particularly important on network links supporting voice over IP (VoIP) because a high jitter can break a call.
+The -b argument allows the allocation if the desired bandwidth.
+
+Client side:
+
+#iperf -c 10.1.1.1 -u -b 10m
+------------------------------------------------------------
+Client connecting to 10.1.1.1, UDP port 5001
+Sending 1470 byte datagrams
+UDP buffer size: 108 KByte (default)
+------------------------------------------------------------
+[ 3] local 10.6.2.5 port 32781 connected with 10.1.1.1 port 5001
+[ 3]   0.0-10.0 sec   11.8 MBytes   9.89 Mbits/sec
+[ 3] Sent 8409 datagrams
+[ 3] Server Report:
+[ 3]   0.0-10.0 sec   11.8 MBytes   9.86 Mbits/sec   2.617 ms   9/ 8409   (0.11%)
+
+Server side:
+
+#iperf -s -u -i 1
+------------------------------------------------------------
+Server listening on UDP port 5001
+Receiving 1470 byte datagrams
+UDP buffer size: 8.00 KByte (default)
+------------------------------------------------------------
+[904] local 10.1.1.1 port 5001 connected with 10.6.2.5 port 32781
+[ ID]   Interval         Transfer        Bandwidth         Jitter        Lost/Total Datagrams
+[904]   0.0- 1.0 sec   1.17 MBytes   9.84 Mbits/sec   1.830 ms   0/ 837   (0%)
+[904]   1.0- 2.0 sec   1.18 MBytes   9.94 Mbits/sec   1.846 ms   5/ 850   (0.59%)
+[904]   2.0- 3.0 sec   1.19 MBytes   9.98 Mbits/sec   1.802 ms   2/ 851   (0.24%)
+[904]   3.0- 4.0 sec   1.19 MBytes   10.0 Mbits/sec   1.830 ms   0/ 850   (0%)
+[904]   4.0- 5.0 sec   1.19 MBytes   9.98 Mbits/sec   1.846 ms   1/ 850   (0.12%)
+[904]   5.0- 6.0 sec   1.19 MBytes   10.0 Mbits/sec   1.806 ms   0/ 851   (0%)
+[904]   6.0- 7.0 sec   1.06 MBytes   8.87 Mbits/sec   1.803 ms   1/ 755   (0.13%)
+[904]   7.0- 8.0 sec   1.19 MBytes   10.0 Mbits/sec   1.831 ms   0/ 850   (0%)
+[904]   8.0- 9.0 sec   1.19 MBytes   10.0 Mbits/sec   1.841 ms   0/ 850   (0%)
+[904]   9.0-10.0 sec   1.19 MBytes   10.0 Mbits/sec   1.801 ms   0/ 851   (0%)
+[904]   0.0-10.0 sec   11.8 MBytes   9.86 Mbits/sec   2.618 ms   9/ 8409  (0.11%)
+
+
+
+
+iperf3 -s -i 1   -------> For UDP and TCP
+
+208.114.113.114 -----> INTPUB Server in HOL
+
+Un   ne_user
+Pw   3ng1n33r
+
+Calculating window size:
+
+The TCP window size is the amount of data that can be buffered during a connection without a validation from the receiver.
+It can be between 2 and 65,535 bytes.
+On Linux systems, when specifying a TCP buffer size with the -w argument, the kernel allocates double as much as indicated. 
+
+
+W = (Bandwidth * Latency)/8 
+
+W = (80Mbps * 603msec)
+    -------------------
+             8
+
+W =  80x10E6 * 633 x10E-3
+     --------------------
+              8
+
+W =  80,000 * 603           10,000 * 533 / 8  = 666.25K     20M = 1.33M  40M = 2.66M 
+     --------------
+            8                                               80M = 80,000 * 534 / 8 = 5.34M   100M = 6.675M  
+
+W = 6.33M
+
+
+Typical test:
+
+ iperf3 -c <IP ADD> -i 1 -t 60 -b 30M -w 1.9M -P 8 -------> Upstream
+ iperf3 -c 10.111.40.252 -i 1 -t 60 -b 30M -w 1.9M -P 8 -R ----> Downstream
+
+
+30,000*542 /8 = 2M
+
+iperf3 -c speedtest.mia11.us.leaseweb.net -p 5201 -i 1 -t 60 -b 5M -w 416.25K -R 
+
+BW: 5M LAT: 666 W =  (5,000*666)/8 = 416.25K
+
+
+
+-------------------------------------------------------------------------------
+
+Prima
+
+./iperf3 -c 172.20.142.122 -t 120 -b 40M -P 2 -R -----> WORKS Better
+/usr/local/bin/iperf-3.9/src/./iperf3 -c 10.112.42.60 -t 30 -b 40M -P 2 -----------------> Vlan 2 Raisting
+
+./iperf3 -c 10.112.44.60 -t 120 -b 40M -P 2 -R
+-----------------------------------------------------------------------------------------
+
+
+iperf3 at 40Gbps and above
+
+Achieving line rate on a 40G or 100G test host often requires parallel streams. However, using iperf3, 
+it isn't as simple as just adding a -P flag because each iperf3 process is single-threaded, including all 
+streams used by that iperf process for a parallel test. This means all the parallel streams for one test use 
+the same CPU core. If you are core limited (this is often the case for a 40G host and it's usually the case for 
+a 100G host), adding parallel streams won't help you unless you do so by adding additional iperf3 processes which can use additional cores.
+
+Note  that it is not possible to do this using pscheduler to manage iperf3 tests, so this is typically better suited to lab or testbed environments.
+
+To run multiple iperf3 processes for a testing a high-speed host, do the following:
+
+Start multiple servers:
+
+   iperf3 -s -p 5101&; iperf3 -s -p 5102&; iperf3 -s -p 5103&
+
+and then run multiple clients, using the "-T" flag to label the output:
+
+   iperf3 -c hostname -T s1 -p 5101 &;  
+   iperf3 -c hostname -T s2 -p 5102 &; 
+   iperf3 -c hostname -T s3 -p 5103 &;
+
+Also, there are a number of additional host tuning settings needed for 40/100G hosts. The TCP autotuning settings may not be large enough for 40G, 
+and you may want to try using the iperf3 -w option to set the window even larger (e.g.: -w 128M). Be sure to check your IRQ settings as well.
+
+-------------------------------------------------------------------------------------------------------------------
+
+Killing the iperf daemon
+
+ps -ef | grep iperf3
+
+adminis+ 10282 28312  0 17:25 pts/1    00:00:00 grep --color=auto iperf3
+root     30075     1  0 Apr04 ?        00:00:11 iperf3 -s -D
+
+ps aux | grep iperf3
+
+kill -9 30075
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Public iperf3 servers
+
+iperf.volia.net ----> Default port 5201  (could get up to 350M Down / 226 Up
+
+ping.online.net -------> Use Port 5200 (coould get 179/178M )
+
+-----------------------------------------------------------------------------------------------------------------------
+
+netperf -H <IP Address> -p <port> -l <seconds> -------> Client
+
+Recv   Send    Send                          
+Socket Socket  Message  Elapsed              
+Size   Size    Size     Time     Throughput  
+bytes  bytes   bytes    secs.    10^6bits/sec  
+
+ 87380  16384  16384    100.05    569.90 
+
+
+netserver -p 16604 -----------------------------------> Server
+
+# netstat -ntlp | grep 16604
+tcp        0      0 :::16604        :::*                  LISTEN      3624/netserver
+ 
+-------------------------------------------------------------------------------------------
+ 
+Running VS Code as root
+
+sudo code --user-data-dir=/home/oscar/Python
+
+Install code runner from Extensions
+
+alias vc
+
+iNSTALLING ANACONDA
+
+Download
+
+bash ./AnacondaX-X.sh
+
+add to .bashrc: export PATH="/root/anaconda3/bin:$PATH"
+
+RUNNING ANACONDA
+
+You can start Anaconda Navigator by opening a Terminal window and running the command "anaconda-navigator"
+
+Or you can open a Terminal window and use "conda" commands directly to create environments and install packages
+
+
+---------------------------------------------------------------------------------
+
+Recovering UBUNTU From crash:
+
+1) Boot into recover mode by holding the shift key on POR.
+2) Select advanced options
+3) Select the OS boot image with "(recovery mode)" in the name
+4) Select root  Drop to root shell prompt
+5) Mount drive in r/w mode: mount -o rw /
+
+------------------------------------------------------------
+
+How to get RAM Memory size:
+
+dmidecode -t 17
+
+
+------------------------------------------------------
+Netplan config  (For Customized Ubuntu on EVE-NG)
+
+File: /etc/netplan/ 01-netcfg.yaml
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp3s0:
+      addresses:
+        - 10.10.10.2/24
+      gateway4: 10.10.10.1
+      nameservers:
+          search: [mydomain, otherdomain]
+          addresses: [10.10.10.1, 1.1.1.1]
+
+-------------------------------------------------------
+
+ESXi Teleports license: 1N617-AU29J-J8U81-093K6-0RW0N
+
+                        JJ415-FU3D3-J8K80-03C8M-ATW5J
+
+-----------------------------------------------------------
+ 
+VMWare Player and Device/Credential Guard is not compatible :
+
+Type: bcdedit /set hypervisorlaunchtype off
+
+-------------------------------------------------------------------------
+
+The most basic form of the command is:
+
+    ssh remote_host
+
+If your username is different on the remote system, you can specify it by using this syntax:
+
+ssh root@<Server's IP address>
+
+On Ubuntu, you can start the ssh server on the Droplet by typing:
+
+    sudo service ssh start
+
+
+--------------------------------------------------------------------------
+
+LXD Container
+
+Before a container is created type:
+
+lxd init
+
+lxc launch ubuntu:16.04 Test ---> Creates container
+
+lxc start Test
+
+lxc list ---> Shows the list of containers
+
+lxc exec Test -- /bin/bash
+
+lxc stop Test
+
+lxc delete Test
+
+lxc profile list ---> Shows the lsit of profiles
+
+--------------------------------------------------------------
+
+nm-connection-editor ---> activates Network Manager 
+
+----------------------------------------------------------
+
+tcpdump -nni <interface>
+
+ethtool <Interface>
+
+ 
+--------------------------------------------------------------------------------
+DCHP:
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens3:
+      dhcp4: true 
+
+Generate the required configuration for the renderers.
+sudo netplan generate
+
+Apply all configuration and restart renderers.
+sudo netplan apply
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens160:
+      dhcp4: no or true
+      addresses: [172.20.136.250/25]
+      gateway4: 172.20.136.129
+      nameservers:
+        addresses: [8.8.8.8]
+    # MTNMGT
+    ens192:
+      dhcp4: no
+      addresses: [10.110.147.60/26]
+      routes:
+        - to: 10.110.147.0/26
+          via: 10.110.147.1
+        - to: 10.172.15.201/32
+          via: 10.110.147.1
+    # INTHKG
+    ens224:
+      dhcp4: no
+      addresses: [10.110.152.251/26]
+      routes:
+        - to: 10.110.152.192/26
+          via: 10.110.152.193
+        - to: 10.172.15.201/32
+          via: 10.110.152.193
+
+
+sudo netplan generate
+sudo netplan apply
+
+
+
+--------------------------------------------------------------------------
+ESxi 6.7 License:  	00490-0ULE1-K8489-0K32K-1WE75
+ 
+-----------------------------------------------------------------------------------------
+
+Removing Netplan
+
+I. Reinstall the ifupdown package:
+
+# apt-get update
+# apt-get install ifupdown
+
+II. Configure your /etc/network/interfaces file with configuration stanzas such as:
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+allow-hotplug enp0s3
+auto enp0s3
+iface enp0s3 inet static
+  address 192.168.1.133
+  netmask 255.255.255.0
+  broadcast 192.168.1.255
+  gateway 192.168.1.1
+  # Only relevant if you make use of RESOLVCONF(8)
+  # or similar...
+  dns-nameservers 1.1.1.1 1.0.0.1
+
+III. Make the configuration effective (no reboot needed):
+
+# ifdown --force enp0s3 lo && ifup -a
+# systemctl unmask networking
+# systemctl enable networking
+# systemctl restart networking
+
+IV. Disable and remove the unwanted services:
+
+# systemctl stop systemd-networkd.socket systemd-networkd networkd-dispatcher systemd-networkd-wait-online
+# systemctl disable systemd-networkd.socket systemd-networkd networkd-dispatcher systemd-networkd-wait-online
+# systemctl mask systemd-networkd.socket systemd-networkd networkd-dispatcher systemd-networkd-wait-online
+# apt-get --assume-yes purge netplan netplan.io
+----------------------------------------------------------------------
+
+ssh: ssh remote_username@remote_host
+
+UBUTEST:
+
+~/.bashrc
+
+export PS1="\u@ATL_01$ "
+export PS1="\e[1;36m[\u@\h \W]\$ \e[m "
+ubuntu mono 13
+PS1
+--------------------------------------------------------------------
+Installing & Configuring TFTP Server
+
+sudo apt-get install tftpd-hpa
+
+sudo systemctl status tftpd-hpa
+
+- Configuring server:
+sudo nano /etc/default/tftpd-hpa
+
+- Customized config Config:
+
+TFTP_USERNAME="tftp"
+TFTP_DIRECTORY="/home/OpsEngIP/Config_Backups"
+TFTP_ADDRESS=":69"
+TFTP_OPTIONS="--secure --create"
+
+
+- Changing settings on folder:
+
+sudo chown tftp:tftp //home/OpsEngIP/Config_Backups
+
+- Restart tftp: 
+ sudo systemctl restart tftpd-hpa
+-------------------------------------------------------------------------------
+Installing TFTP Client
+
+ sudo apt install tftp-hpa
+
+to run client: tftp <IP address>
+activate verbose: tftp>verbose
+Now, to upload a file (rancheros.iso) from the current working directory (from where you ran tftp command), run the following command:
+tftp> put rancheros.iso
+
+--------------------------------------------------------------------
+Copyng files from cisco to tftf server
+
+#kron policy-list conf_bkp
+#cli show running-config | redirect tftp://10.214.8.121/home/OpsEngIP/Cisconfigs/MIR_LAB_01.rt
+#exit
+#kron occurrence conf_bkp_Schedule at 23:59 recurring
+#policy-list conf_bkp
+-----------------------------------------------------------------------
+ 
+Configuring FTP Server
+
+apt-get install vsftpd
+
+- Open config file /etc/vsftpd.conf
+ 
+write_enable=YES
+ftpd_banner= Welcome to .....
+chroot_local_user=YES
+allow_writeable_chroot=YES
+userlist_enable=YES
+userlist_file=/etc/vsftpd.user_list
+userlist_deny=NO
+
+- service vsftpd restart or sudo systemctl restart vsftpd
+ 
+- Create FTP User:
+
+useradd -m OpsEngIP
+passwd OpsEngIP                                                                                                                                                      
+Enter new UNIX password:                                                                                                                                                                       
+Retype new UNIX password:                                                                                                                                                                      
+passwd: password updated successfully 
+
+- Add the user to the allowed FTP users list:
+echo "opsengip" | sudo tee -a /etc/vsftpd.user_list
+echo "gns3" | sudo tee -a /etc/vsftpd.user_list
+echo "noc" | sudo tee -a /etc/vsftpd.user_list
+
+- Create the FTP directory tree and set the correct permissions:
+sudo mkdir -p /home/OpsEngIP/ftp
+sudo chmod 750 /home/OpsEngIP/ftp
+sudo chown -R OpsEngIP: /home/OpsEngIP/ftp
+
+- To ensure new user will have bash shell:
+sudo usermod -s /bin/bash OpsEngIP
+ 
+service vsftpd start ---> Start
+service vsftpd restart
+service vsftpd status
+
+---------------------------------------------------------------------
+Transfering FTP files via CLI
+
+Open a connection to a remote system by using the ftp command.
+
+$ ftp remote-system
+
+Name (remote-system:user-name): user-name
+
+331 Password required for user-name:
+Password: password
+- Change to the target directory
+  ftp> cd target-directory
+
+- Ensure that you have write permission to the target directory.
+  ftp> ls -l target-directory
+
+- Set the transfer type to binary.
+  ftp> binary
+
+- To copy a single file to the remote system, use the put command.
+  ftp> put filename
+
+- To copy multiple files at once, use the prompt mput command. 
+  prompt 
+  mput file*
+
+- To copy a single file from the remote system, use the get command.
+  ftp> get filename
+or
+  prompt
+  mget file*
+
+--------------------------------------------------------------------
+DELETING A USER
+
+sudo deluser --remove-home username 
+
+--------------------------------------------------------------------
+Configuring SCP Cisco Router
+
+! AAA authentication and authorization must be configured properly for SCP to work.
+
+ip domain-name mtnsat.net
+hostname Lab_Router.MIR
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+username someuser privilege 15 secret somepassword
+aaa new-model
+aaa authentication login default local
+aaa authorization exec default local
+username tiger privilege 15 password 0 lab
+! SSH must be configured and functioning properly.
+ip ssh time-out 120
+ip ssh authentication-retries 3
+ip scp server enable
+-----------------------------------------------------------------------
+SSH TOPICS:
+
+Installation:
+
+sudo apt install openssh-server
+
+Once the installation is completed, the SSH service will start automatically. To verify that the installation was successful and SSH service is running type the following command which will print the SSH server status:
+
+sudo systemctl status ssh
+
+Disabling SSH on Ubuntu
+
+If for some reason you want to disable SSH on your Ubuntu machine you can simply stop the SSH service by running:
+
+sudo systemctl stop ssh
+
+Copy
+
+To start it again run:
+
+sudo systemctl start ssh
+
+
+
+The most basic form of the command is:
+
+    ssh remote_host
+
+If your username is different on the remote system, you can specify it by using this syntax:
+
+ssh root@<Server's IP address>
+
+On Ubuntu, you can start the ssh server on the Droplet by typing:
+
+    sudo service ssh start
+
+/etc/init.d/ssh status ---> Checks logs and status
+
+sudo /etc/init.d/sshd stop 
+---------------------------------------------------------------------
+
+To Reload Bashrc:
+
+You just have to enter the command:
+
+source ~/.bashrc
+
+or you can use the shorter version of the command:
+
+. ~/.bashrc
+
+-----------------------------------------------------------------------
+ 
+
+OVF Tool:
+
+******* PC ************************************
+
+cd \Program Files\VMware\VMware OVF Tool\
+
+
+ovftool.exe vi://10.200.8.22/BW_Test_Vessel_6.2 "C:\BW_Test_Vessel_OVF\BW_Test_Vessel_6.2.ovf" 
+
+ovftool.exe vi://10.200.8.80/BW_Test_Teleport_1.2 "C:\BW_Test_Teleport_1.2.ovf" -----> Export
+
+ovftool.exe -ds=datastore1 -dm=thin -n=MIR_LAB-01_BW_Test_FTP2 "C:\BW_Test_Teleport_OVF\BW_Test_Teleport_1.1.ovf" vi://172.16.100.52  ----> Import
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="Man_Windows" -dm=thin -n=MIR_LAB-01_BW_Test_FTP_V1.2 "C:\BW_Test_Teleport_1.2\BW_Test_Teleport_1.2.ovf" vi://10.214.8.120 ----> Import specifying Net target
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=MIR_LAB-01_BW_Test_FTP_V1.2 "C:\BW_Test_Teleport_1.2\BW_Test_Teleport_1.2.ovf" vi://10.152.18.52
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=ENK_Sniffer_1.0 "C:\ENK_Sniffer_2.0\ENK_Sniffer_2.0\ENK_Sniffer_2.0.ovf" vi://172.20.152.120  ----> Latest
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=ENK_LAB_1.1 "C:\ENK_Sniffer_1.1\ENK_Sniffer_1.1\ENK_Sniffer_1.1.ovf" vi://10.214.8.120
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=RAI-04_BW_Test_FTP "C:\BW_Test_Teleport_1.5\BW_Test_Teleport_1.5.ovf" vi://172.20.154.120
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" --overwrite -dm=thin -n=BW_Test_Teleport_2.0 "C:\BW_Test_Teleport_2.0\BW_Test_Teleport_2\BW_Test_Teleport_2.ovf" vi://172.20.152.120
+ovftool.exe vi://10.200.8.28/BW_Test_IO_ND "C:\BW_Test_IO_ND_6_7.ovf" 
+ovftool.exe vi://10.200.8.28/BW_Test_TG "C:\BW_Test_TG_6_7.ovf"
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=BW_Test_IO_ND "C:\BW_Test_IO_ND_6_7.ovf" vi://10.152.18.52
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=BW_Test_IO_ND C:\BW_Test_TG_6_7\BW_Test_TG_6_7\BW_Test_TG_6_7\.ovf vi://10.152.18.52
+
+ovftool.exe vi://10.200.8.28/ENK_Sniffer_2.0 "C:\ENK_Sniffer_2.0\ENK_Sniffer_2.0.ovf"
+
+ovftool.exe vi://10.200.8.28/ENK_Sniffer_1.0 "C:\ENK_Sniffer_1.1\ENK_Sniffer_1.1.ovf"
+
+ovftool.exe vi://10.200.8.28/BW_Test_Teleport_1.5 "C:\Images IOS VMs and OVAs\Virtual Machines\BW_Test_Teleport_1.5.ovf"
+
+ovftool.exe vi://10.152.18.52/BW_Test_IO_ND "C:\BW_Test_IO_ND.ovf"
+
+ovftool.exe vi://10.200.8.28/ENK_Sniffer_2.0 "C:\ENK_Sniffer_2.0\ENK_Sniffer_2.0.ovf"
+
+ovftool.exe vi://10.200.9.7/BW_Test_Teleport_2.1 "C:\Images IOS VMs and OVAs\Virtual Machines\BW_Test_Teleport_2.1.ovf"  --> Latest Server to PC
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="Man_Windows" -dm=thin -n=MIR_LAB-01_BW_Test_FTP_V2.1 "C:\Images IOS VMs and OVAs\Virtual Machines\BW_Test_Teleport_2.1\BW_Test_Teleport_2.1.ovf" vi://10.214.8.120 --> Latest PC to Server
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" --overwrite -dm=thin -n=BW_Test_Teleport_2.1 "C:\BW_Test_Teleport_2.0\BW_Test_Teleport_2\BW_Test_Teleport_2.ovf" vi://172.20.152.120 
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" --overwrite -dm=thin -n=BW_Test_FTP_V2.1 "C:\Images IOS VMs and OVAs\Virtual Machines\BW_Test_Teleport_2.1\BW_Test_Teleport_2.1.ovf" vi://172.20.150.120
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" --overwrite -dm=thin -n=ENK_Sniffer_1.1 "C:\Images IOS VMs and OVAs\Virtual Machines\\ENK_Sniffer_1.1\ENK_Sniffer_1.1.ovf" vi://172.20.150.120
+
+C:\Images IOS VMs and OVAs\Virtual Machines\ENK_Sniffer_1.1\ENK_Sniffer_1.1.ovf
+
+How to copy VMS between ESXi Hosts:
+
+cd \Program Files\VMware\VMware OVF Tool\ovftool.exe vi://<source-host-name>
+
+ovftool.exe -ds=<dest-datastorename> vi://<source-esxi-host-name/vm-name> vi://<destination-esxi-hostname>
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" -dm=thin -n=ENK_Sniffer_1.0 vi://10.200.8.28/ENK_Sniffer_1.0 vi://172.20.130.120	
+
+ovftool.exe -ds=datastore1 -dm=thin -n=BW_Test_IO_ND "C:\BW_Test_IO_ND "C:\BW_Test_IO_ND.ovf"" vi://10.200.8.18
+
+ovftool.exe vi://172.20.144.251/<VM NAme> "C:\ENK_Sniffer_1.0\ENK_Sniffer_1.0.ovf"
+
+vi://172.20.146.248/HOL-07_ENK "C:\ENK_Sniffer_1.0\ENK_Sniffer_1.0.ovf"
+
+ovftool.exe -ds=datastore1 --net:"VM Network"="VM Network" --overwrite -dm=thin -n=HOL-07_BWT "C:\Teleport_VM_Images\BW_Test_Teleport_2\BW_Test_Teleport_2.ovf" vi://172.20.146.248 
+
+ovftool.exe vi://172.20.146.248/HOL-07_BWT "C:\Teleport_VM_Images\BW_Test_Teleport_2.1\BW_Test_Teleport_2.1.ovf"
+******************** LINUX ****************************************************
+To install:
+ sudo sh ./VMware-ovftool-4.4.1-16812187-lin.x86_64.bundle
+
+To Export:
+ovftool vi://10.200.8.28/BW_Test_Teleport_2.0 "/home/administrator/OVFs/BW_Test_Teleport_2.0/BW_Test_Teleport_2.0.ovf" ------> puts files on /BW_Test_Teleport_2.0 directory (needs to be created first)
+ovftool vi://10.200.8.28/BWT_ESXi_6.0_V2 "/home/administrator/OVFs/BWT_ESXi_6.0_V2/BWT_ESXi_6.0_V2.ovf"
+
+- install if not present:
+  sudo apt install ucommon-utils
+  
+  md5sum ENK_Sniffer_1.1-disk1.vmdk > checkmd5.md5 ------> copies hash to file
+
+
+--------------------------------------------------
+HOW TO Clone A VM HD
+
+- Go to Datastore Browser
+- Create a Destination Folder
+- Copy the following files to the new folder via scp:
+  nc -z 10.214.8.120 22
+  scp /vmfs/volumes/datastore1/ENK_Sniffer_1.0/ENK_Sniffer_1.0-flat.vmdk root@10.214.8.120:/vmfs/volumes/datastore1/
+  scp /vmfs/volumes/datastore1/ENK_Sniffer_1.0/ENK_Sniffer_1.0.vmdk root@10.214.8.120:/vmfs/volumes/datastore1/
+  scp /vmfs/volumes/datastore1/ENK_Sniffer_1.0/ENK_Sniffer_1.0.vmx root@10.214.8.120:/vmfs/volumes/datastore1/
+- Right-click *.vmx and select Register VM
+ 
+
+
+
+
+
+Ubuntu 18.04 LTS change hostname permanently
+
+The procedure to change the computer name on Ubuntu 18.04 LTS:
+
+    Type the hostnamectl command :
+        sudo hostnamectl set-hostname newNameHere
+    Delete the old name and setup new name.
+    Next Edit the /etc/hosts file:
+         sudo nano /etc/hosts
+     Replace any occurrence of the existing computer name with your new one.
+    Reboot the system to changes take effect:
+   
+ ---------------------------------------------------------
+
+Widgets and themes for Conky:
+
+www.mediafire.com/file/icvmpzhlk7vgejt/default-themes-extra-1.cmtp.7z#
+
+
+--------------------------------------------------------------------------
+
+Disabling Wayland and enabling Xorg
+
+xrandr -q ----> query
+
+
+As a privileged administrator user use your text editor to perform the following changes of the GDM3 custom configuration file /etc/gdm3/custom.conf.
+FROM:
+
+#WaylandEnable=false
+
+TO:
+
+WaylandEnable=false
+-------------------------------------------------------------------
+Working in shells:
+
+
+The shell is set to /bin/sh, when you used useradd or adduser --shell /bin/sh instead of plain adduser. Your shell being sh instead of bash would explain why your .bash_profile isn't applied and why source isn't working (It's a Bash builtin; the equivalent in sh is .. Note that both forms are shell builtins rather than external commands, and so sudo source and sudo . will never work.) You can change your shell to Bash by running chsh -s /bin/bash and then logging out & back in.
+
+If you did echo $0 and you see /bin/sh then you need to set your your shell to /bin/bash instead. So run chsh -s /bin/bash to change your login shell to bash and check again your keys(Backspace, Del, Tab and arrow keys) if fixed.
+
+ How to change a userc default Shell:
+
+- Change User Shell in /etc/passwd File
+- nano /etc/passwd
+- look for /home/user:/bin/sh and change it to /bin/bash
+ 
+------------------------------------------------------------------------------------------------
+
+UP Arrow doesn't show history:
+
+
+History is not present in all shells. You need to start a shell with history like bash. To do so, just type the name of the shell, like
+
+bash
+
+or the full path of the executable, like
+
+/bin/bash
+
+---------------------------------------------------------------------------------------------
+Change the Ubuntu login screen
+
+administrator
+oeIP2019!
+
+sudo gedit /usr/share/gnome-shell/theme/ubuntu.css
+
+
+sudo nano /usr/share/gnome-shell/theme/ubuntu.css
+
+#lockDialogGroup {
+background: #2c001e url(file:///home/administrator/Pictures/VLA.jpg);
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+}
+
+---------------------------------------------------------------------------------------------
+Running a script or command at startup using /etc/rc.local
+
+- Create a file:
+
+sudo nano /etc/systemd/system/rc-local.service
+
+Then add the following content to it.
+
+[Unit]
+ Description=/etc/rc.local Compatibility
+ ConditionPathExists=/etc/rc.local
+
+[Service]
+ Type=forking
+ ExecStart=/etc/rc.local start
+ TimeoutSec=0
+ StandardOutput=tty
+ RemainAfterExit=yes
+ SysVStartPriority=99
+
+[Install]
+ WantedBy=multi-user.target
+
+- Create a file:
+sudo nano /etc/rc.local
+
+- Add commands:
+
+#!/bin/bash
+
+#Set Promiscuous mode
+
+/sbin/ip link set dev ens192 promisc on
+/sbin/ip link set dev ens224 promisc on
+/sbin/ip link set dev ens256 promisc on
+
+- Next, run the following command to make sure /etc/rc.local file is executable.
+
+sudo chmod +x /etc/rc.local
+sudo chown root /etc/rc.local
+
+- After that, enable the service on system boot:
+
+sudo systemctl enable rc-local
+
+- Reboot or start service
+
+sudo systemctl start rc-local.service
+sudo systemctl status rc-local.service
+
+#!/bin/bash
+#
+# rc.local
+#
+#iperf as daemon in server
+/usr/bin/iperf3 -s -D
+/usr/bin/indicator-ip -i ens160
+exit 0 
+
+promisc.service
+/usr/bin/devnet.sh
+/usr/bin/promisc.sh
+---------------------------------------------------------------------------------------------
+APP To display ip address:
+
+sudo apt-add-repository ppa:bovender/bovender
+sudo apt-get update
+sudo apt-get -y install indicator-ip
+sudo nano 
+administrator oeIP2019!
+----------------------------------------------------------------------------
+
+Location of Ubuntu Logo in login screen:
+
+/usr/share/plymouth/ubuntu-logo.png
+
+
+Changing Background Image:
+
+Use the backround utility in Activities
+
+# cd /usr/share/backgrounds
+# sudo mv warty-final-ubuntu.png warty-final-ubuntu.png.bakcd /usr/share/plymouth
+# rm warty-final-ubuntu.png
+# ln -s your_image.png warty-final-ubuntu.png
+
+----------------------------------------------------------------
+
+How to install Wireshark on Ubuntu 18.04
+
+Add PPA repository and install Wireshark.
+
+sudo add-apt-repository ppa:wireshark-dev/stable 
+sudo apt update
+sudo apt -y install wireshark
+ 
+Configure and start Wireshark
+
+To be able to capture packets as normal user, add your user to wireshark group.
+
+sudo usermod -a -G wireshark administrator
+sudo usermod -a -G wireshark opsengip
+
+Also change dumpcap binary file permissions.
+
+sudo chgrp wireshark /usr/bin/dumpcap
+sudo chmod 754 /usr/bin/dumpcap
+sudo setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+
+Verify (Optional):
+
+$ sudo getcap /usr/bin/dumpcap
+ /usr/bin/dumpcap = cap_net_admin,cap_net_raw+eip
+
+---------------------------------------------------------------------------------
+Updating ESXi from 6.0 to 6.7
+
+- Enable  SSH nad console shell from GUI
+- Enable SWAP memory from Host/Manage/System Swap/ Enable Datastore
+- Set the host to maintenance mode.
+- Login via PUTTY
+- type: esxcli network firewall ruleset set -e true -r httpClient ------> opens FW for HTTP requests
+- Type: esxcli software profile update -d https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml -p ESXi-6.7.0-20180804001-standard -----> Update
+- Type: esxcli network firewall ruleset set -e false -r httpClient ----> close FW again
+- Reboot
+----------------------------------------------------------------------------------------
+
+Copying from router to FTP server:
+
+copy bootflash: ftp:
+Source filename? asr1001x-universalk9.16.08.01.SPA.bin
+Address or name of remote host []? 172.20.128.122
+Destination filename [asr1001x-universalk9.16.08.01.SPA.bin]? /ftp/asr1001x-universalk9.16.08.01.SPA.bin
+
+Copying from FTP server to router:
+ 
+copy ftp: bootflash:
+Address or name of remote host []? 172.20.128.122
+Source filename []? /ftp/test.bin
+Destination filename [test.bin]? 
+
+Using UN/PW:
+
+copy ftp://oscar:huemac86@10.151.142.122/ftp/c8000aes-universalk9.17.09.03a.SPA.bin bootflash:
+
+
+---------------------------------------------------------------------------------------------------------
+
+Copying from Nexus SW to FTP server or from FTP Server to Nexus SW:
+copy bootflash:nxos.7.0.3.I7.3.bin ftp://OpsEngIP@172.20.128.122/ftp/
+Enter vrf (If no input, current vrf 'default' is considered): <enter>
+Password: mtn33025
+
+-------------------------------------------------------------------------------------------------
+
+ip ftp username OpsEngIP
+ip ftp password mtn33025
+service password-encryption
+ 
+-------------------------------------------------------------------------------------------
+Adding user to sudoers list:
+
+sudo adduser OpsEngIP
+sudo usermod -aG sudo OpsEngIP
+
+Displays list of sudoers
+
+getent group sudo
+
+-------------------------------------------------------------------------------------------------
+Changing int names: (UBUNTU 16.01)
+
+sudo nano /etc/udev/rules.d/70-persistent-net.rules
+
+#PCI device ENS160 (NATIVE)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:ae", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="ens*", NAME="NATIVE"
+
+#PCI device ENS192 (INTPUB)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:b8", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="ens*", NAME="INTPUB"
+
+#PCI device ENS224 (MONITORING)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:c2", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="ens*", NAME="MONITORING"
+
+#PCI device ENS256 (MTNMGT)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:cc", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="ens*", NAME="MTNMGT"
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Changing int names: (UBUNTU 18.04)
+
+- sudo nano /etc/udev/rules.d/70-persistent-net.rules
+
+#PCI device ENS160 (NATIVE)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:ae", NAME="NATIVE"
+
+#PCI device ENS192 (INTPUB)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:b8", NAME="INTPUB"
+
+#PCI device ENS224 (MONITORING)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:c2", NAME="MONITORING"
+
+#PCI device ENS256 (MTNMGT)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:12:bf:cc", NAME="MTNMGT"
+
+
+- Rename your network interface name in /etc/netplan/filename.yaml
+  ethernets:
+    INTERFACENAME:
+
+- Edit GRUB config file
+  nano /etc/default/grub
+  from: GRUB_CMDLINE_LINUX=""
+  to: GRUB_CMDLINE_LINUX="net.ifnames=1 biosdevname=0"
+
+- Update bootloader
+  update-grub
+
+- (Optional) update initram:
+  update-initramfs -u
+
+- reboot 
+ 
+------------------------------------------------------------------------------------------------------------
+Ubuntu 16 Addressing:
+ 
+auto lo
+iface lo inet loopback
+
+# MANAGEMENT Interface (VLAN 1)
+auto ens192
+iface ens192 inet static
+        address 10.151.215.6
+        netmask 255.255.255.0
+        gateway  10.151.144.1
+
+# MTNMGT Interface
+auto ens160
+iface ens160 inet static
+       address 10.152.144.70
+       netmask 255.255.255.0
+       up route add -net 10.152.144.0 netmask 255.255.255.0 gw 10.152.144.1
+       # Static Route to HOL-01
+       up route add -net 10.110.21.0 netmask 255.255.255.192 gw 10.152.144.1
+
+# MONITORING Interface
+auto ens224
+iface ens224 inet static
+        address 10.158.144.4
+        netmask 255.255.255.0
+        up route add -net 10.158.144.0 netmask 255.255.255.0 gw 10.158.144.1
+        # Static Route to HOL-01
+        up route add -net 10.110.22.64 netmask 255.255.255.192 gw 10.158.144.1
+
+# INTPUB Interface
+#auto ens256
+#iface ens256 inet static
+#        address x.x.x.x (Public)
+#        netmask 255.255.255.0
+#        up route add -net x.x.x.x netmask 255.255.255.0 gw 216.130.32.81
+
+
+ens160 PRI
+ens192 MTNMGT
+ens224 Monitoring
+ens256 INTPUB
+
+interface FastEthernet0/1/1.17
+ description BW Testing Network
+ encapsulation dot1Q 17
+ ip vrf forwarding MONITORING
+ ip address 10.158.144.1 255.255.255.0
+ no cdp enable
+!
+sudo nano /etc/network/interfaces
+
+# MTNMGT_Remote_Routes
+
+# MONITORING_Remote_Routes
+
+# INTPUB_Remote_Routes
+
+------------------------------------------------------------------------
+
+
+Un: administrator
+Pw: oeIP2019!
+elk: mtn33024
+
+Un: OpsEngIP
+Pw: mtn33025
+
+Un: noc
+Pw: mtn_nj_fl
+
+------------------------------------------------------------------------
+
+ ESXi:
+
+UN: root
+PW: $B@ld_3agle$
+
+-------------------------------------------
+
+MIGRATING TO NETPLAN
+
+- apt-get install -y netplan.io
+- Edit the 01-network-mamager-all.yaml with IP settings in the /etc/netplan directory
+
+# Teleport Name  
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens160:
+      dhcp4: true
+      dhcp6: no
+      #addresses: [172.20.130.122/25]
+      #gateway4: 172.20.130.129
+      #nameservers:
+        #addresses: [216.7.159.133,8.8.8.8]
+
+    #MTNMGT Sub-Interface
+    ens256:
+      addresses: [10.110.21.60/26]
+      routes:
+        - to: 10.110.21.0/26
+          via: 10.110.21.1
+          #MTNMGT_IP_Routes
+
+    #MONITORING Sub-Interface
+    ens224:
+      addresses: [10.110.22.124/26]
+      routes:
+        - to: 10.110.22.64/26Edit 
+          via: 10.110.22.65
+          #MONITORING_IP_Routes
+          to: 10.110.22.64/ 
+
+    #INTPUB Sub-Interface
+    ens192:
+      addresses: [10.110.23.252/26]
+      routes:
+        - to: 10.110.22.64/26
+          via: 10.110.23.193
+          #INTPUB_IP_Routes 
+
+- sudo netplan generate
+- sudo netplan apply
+- sudo apt-get purge -y ifupdown
+- sudo mv /etc/network/interfaces /etc/network/interfaces.old
+- sudo reboot
+
+ 
+
+----------------------------------------------------------
+EVE-NG Changing IP address
+
+rm -f /opt/ovf/.configured ----> 10.151.213.13
+
+cat /etc/netplan/01-network-manager-all.yaml
+
+------------------------------------------------------------
+
+How to look for a folder or file in the hard drive:
+
+ls -al /usr/bin | grep python
+
+
+ -----------------------------------------------------------------------
+
+ANSIBLE
+
+to remove ansible (and other packages):
+
+sudo apt-get purge --auto-remove ansible
+
+pip3 install ansible
+
+In order to use ssh passwords, install the following package in the host machine:
+
+apt-get install sshpass
+
+ansible all -m ping -i inventory.txt -e 'ansible_python_interpreter=/usr/bin/python3'
+
+
+
+ansible-playbook <PlaybookFileName.yaml> -i <Inventory's Name> -----> Normal
+
+ansible-playbook -K <PlaybookFileName.yaml> -i <Inventory's Name> --> When using sudo
+
+ansible-playbook myfile.yml --ask-become-pass
+
+name: 'Task'
+become: true
+become_user_root
+----------------------------------------------------------------------------
+
+$ ANSIBLE_DEBUG=1 ansible-playbook -i inventory/hosts playbooks/site.yaml
+
+---------------------------------------------------------------------------------------------------------
+
+CONNECTING TO A CISCO ROUTER VIA SSH
+
+On the router:
+
+- Create hostname
+- Create Domain name: ip domain-name mtnsat.net 
+                      ip domain name mtnsat.net ---> IOS-xe
+- username administrator privilege 15 secret mtn33024 -----> UN must match the one in the server
+- Generate key:
+    crypto key generate rsa usage-keys label administrator modulus 2048
+    ip ssh version 2
+    ip ssh rsa keypair-name administrator
+    
+- line vty 0 4
+  login local
+  transport input ssh
+- ip ssh version 2
+
+ - ssh -l root 10.252.4.1 ----> Login to netmodem from router
+
+On the Server:
+
+- /etc/ssh/ssh_config 
+
+- Remove the comment sign (#) on Ciphers and add
+
+  Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+
+-  enable the diffie-hellman-group1-sha1 key exchange algorithm
+ 
+  KexAlgorithms diffie-hellman-group1-sha1,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1
+ 
+- sudo service ssh restart
+
+- cd /home/administrator/.ssh/
+administrator@TEL-01:~/.ssh$ ls
+id_rsa  id_rsa.pub  known_hosts  known_hosts.old
+
+-------------------------------------------------------------------------------------------------------------------------------
+CONNECTING TO A CISCO ROUTER VIA SSH PUBLIC KEY
+
+On the Server:
+
+- ssh-keygen
+  cat ~/.ssh/id_rsa.pub
+
+Obtain public key in a paste format for cisco
+
+ $ fold -b -w 70 /home/administrator/.ssh/id_rsa.pub ---> This is to format the key in the right number of rows to be copied to the router 
+ 
+
+-Copy and paste on notepad
+
+On the router
+
+- Create hostname
+
+- Create Domain name: ip domain-name mtnsat.net 
+
+- line vty 0 4
+  login local
+  transport input ssh
+
+- ip ssh version 2
+
+- R2(config)#ip ssh pubkey-chain
+
+- R2(conf-ssh-pubkey)#username administrator ---> sem UN like in thr ubuntu server
+
+- R2(conf-ssh-pubkey-user)#key-string
+
+- R2(conf-ssh-pubkey-data)#$AAQEA6jYlf9MBskhkWov+ZOUDKun0ExQIRj1zfWA/YciO02VS ----> Copy/paste key from notepad
+
+- R2(conf-ssh-pubkey-data)#exit
+
+- R2(conf-ssh-pubkey-user)#exit
+
+- sh ip ssh
+
+* If reconfiguring an existing router, remove the key by typing:
+ ssh-keygen -f "/home/administrator/.ssh/known_hosts" -R "10.1.1.4"
+
+ADDITION:
+
+Just add -c param with one of the supported ciphers (aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc):
+
+ssh -c aes256-cbc user@10.1.1.1
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+CONNECTING TO A NEXUS SWITCH VIA SSH USING PUBLIC KEY
+
+On the Server:
+
+- ssh-keygen
+  cat ~/.ssh/id_rsa.pub
+
+- Copy key to ftp folder to upload to sw:
+  cp id_rsa.pub /home/administrator/ftp
+
+* If reconfiguring an existing Switch, remove the key by typing:
+  ssh-keygen -f "/home/administrator/.ssh/known_hosts" -R "10.1.1.4"
+
+
+
+On Switch:
+- feature ssh
+
+If copyng public key from Server via FTP:
+  # username administrator role network-admin
+  # copy ftp://administrator@10.1.1.10/ftp/id_rsa.pub bootflash:id_rsa.pub
+
+IF copyng public key via copy/paste:
+  # username administrator role network-admin
+  # username administrator sshkey <Copy/Paste public key line by line in sequence from fold -b -w 70 /home/administrator/.ssh/id_rsa.pub>
+
+  # show user-account administrator
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+CONNECTING TO A NEXUS SWITCH VIA SSH USING PASSWORD
+
+Create user:
+feature ssh
+
+username administrator password mtn33024 role network-admin
+username administrator keypair generate rsa 2048 force 
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+Paramiko basic commands
+
+import paramiko
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect('10.1.1.1', username='administrator', password='huemac86')
+ssh.connect('10.1.1.1', username='administrator', password='huemac86', look_for_keys=False, allow_agent=False)
+remote_conn = ssh.invoke_shell()
+remote_conn.send("show ip int brief\n")
+output = remote_conn.recv(5000)
+print(output)
+
+---------------------------------------------------------------------------------------
+
+Netmiko Basic Commands
+
+from netmiko import ConnectHandler
+cisco_7260a = { 
+               'device_type': 'cisco_ios', 
+               'host': '192.168.1.1', 
+               'username': 'administrator', 
+               'password': 'huemac86',
+      }
+
+cisco_7260b = { 
+               'device_type': 'cisco_ios', 
+               'host': '192.168.1.3', 
+               'username': 'administrator', 
+               'password': 'huemac86',
+      }
+
+cisco_CSRa = { 
+               'device_type': 'cisco_xe', 
+               'host': '192.168.1.3', 
+               'username': 'administrator', 
+               'password': 'huemac86',
+      }
+
+cisco_CSRb = { 
+               'device_type': 'cisco_xe', 
+               'host': '192.168.1.5', 
+               'username': 'administrator', 
+               'password': 'huemac86',
+      }
+
+Nexus_9Xa = { 
+               'device_type': 'cisco_nxos', 
+               'host': '10.1.1.4', 
+               'username': 'administrator', 
+               'password': 'huemac86',
+      }
+
+Nexus_9Xb = { 
+               'device_type': 'cisco_nxos', 
+               'host': '100.2.2.4', 
+               'username': 'administrator', 
+               'password': 'huemac86',
+      }
+
+
+net_connect = ConnectHandler(**cisco_7260a)
+net_connect = ConnectHandler(**Nexus_9Xb)
+
+cisco = { 
+          'device_type': 'cisco_ios', 
+          'host': '192.168.1.4', 
+          'username': 'administrator', 
+          'password': 'huemac86',
+          'use_keys': False,
+          'allow_agent': False
+      }
+net_connect = ConnectHandler(**cisco)
+net_connect.find_prompt()
+output = net_connect.send_command("show ip int brief")
+print(output)
+
+----------------------------------------------------------------------------------
+
+NetDev Terminal Public Key
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIqw8iXn6FzUYV9RIqyHkaUUzLbik6mC
+aF3kIX+1U117VUvzhvZhxmwtpeUisDPLef0UjfW+V7xJEbqzjY5+R8wd/x5ABDB6RCzoFl
+4nbD/1AlizGKDK4yznUvoSHBbklprxC0BF57+auBJxm9/u9NkUv34OFQUOBEM7B/HWgnmD
+8FIuhvdiQWlYOuqLfro8aCiKqp/XbU+pkQCytWHKFvTYwyV3enQzXMBm5Ygs6R5pYpqCMB
+uHcqf37JJITN2A9Nth3zr7dhrHU1EKIahRJ/QxLYgbIBBo8O0rSWDAeyZp6UzgsGQr1/4z
+5FJQrxR59qozd4ZM5wAP05sTXjMJsmIf3OwA8CH2tkVlYOmYftToSN5nWWgmzW3mjFo4nR
+0U0reidchedZmjFR2ZOTpLAnPIbrYDb0O2tmByoJ/HPXO3k6vCLPFa+/M9/60AGJuz1hEV
+0pkBFYEQXG+Y8k/PYwyWFLvrZT/wKw6wR0MGOUg18ZO33Nk8Gue3deUTi1hAk= adminis
+trator@Teleport-VM
+
+--------------------------------------------------------------------------------------
+
+
+iproute2
+
+ip route add {NETWORK/MASK} via {GATEWAYIP}
+ip route add {NETWORK/MASK} dev {DEVICE}
+ip route add default {NETWORK/MASK} dev {DEVICE}
+ip route add default {NETWORK/MASK} via {GATEWAYIP}
+
+# ip addr add 192.168.1.81/24 dev eth0
+
+# ip addr del 192.168.1.81/24 dev eth0
+
+# ip addr show ---> "ifconfig"
+
+# ip link show  --> L2 info
+
+# ip link show dev eth0 ---> per interface
+
+# ip addr show eth0
+
+ --> Add an alias name of interface 
+
+# ip link set dev eth0 name lan ---> Renames an interface (It must be down to apply change)
+
+# ip link set eth0 up
+
+# ip link set eth0 down
+
+# ip neigh -----> ARP table
+
+# ip route add 216.7.159.196/32 via 172.20.130.1 dev ens160
+
+# ip route add default via 192.168.1.1 ---> Sets default gateway
+
+# ip route add via 192.168.1.1 ---> Add a route via next hop
+
+# ip route add via dev eth0 ---> Add a route via interface
+
+# ip route add 192.16 8.2.0 dev ppp0 metric 10 ---> Route with different metric
+
+# ip link add name eth0.110 link eth0 type vlan id 110 ---> Create VLAN Interface
+
+# sudo ip link set ens192 promisc on -----> Int in promiscuous mode
+
+
+---------------------------------------------------------------------------------------
+Creating a service (devnet.service /lib/systemd/system/)
+
+- Create a unit file <name>.service
+
+[Unit]
+Description=Oscar's Network Config        
+After=systemd-networkd.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/bin/bash /usr/bin/devnet.sh   
+ExecStopPost=
+
+[Install]
+WantedBy=multi-user.target
+
+Chmod +x devnet.sh
+cp devnet.service /lib/systemd/system/
+sudo chmod 644 /lib/systemd/system/myservice.service
+
+
+sudo systemctl start myservice
+sudo systemctl status myservice
+sudo systemctl enable myservice
+sudo systemctl disable myservice
+
+-----------------------------------------------------------------------------------------
+- Removing Netplan:
+apt remove netplan
+systemctl disable cloud-config.service cloud-final.service cloud-init-local.service cloud-init.service --all
+
+216.7.159.196
+---------------------------------------------------------------------------------------------
+Dhclient configuration:
+
+dhclient ens160 &
+
+---------------------------------------------------------------------------------------------
+
+
+flent MaestroIQ-TEST1.Ver.1.5 172.16.21.34 -l 3000 ---> VLAN301
+
+flent MaestroIQ-TEST1.Ver.1.5 172.16.20.181 -l 3000 ---> VLAN1
+
+flent MaestroIQ-TEST1.Ver.1.5 -l 60 -H 172.16.20.181
+
+------------------------------------------------------------------------------------------------
+
+ftp put /path/to/local_file < remote_file_name > 
+------------------------------------------------------------------------------------------
+
+To REMOVE : 
+
+sudo apt-get --purge remove gimp
+
+------------------------------------------------------------------------------------
+Creating ifb interfaces:
+
+
+# ip link add ens192-ifb type ifb
+# ip link set ens192-ifb up
+# tc qdisc add dev ens192-ifb root sfq
+
+# ip link add ens224-ifb type ifb
+# ip link set ens224-ifb up
+# tc qdisc add dev ens224-ifb root sfq
+
+
+# ip link add ifb0 type ifb
+# ip link set ifb0 up
+# tc qdisc add dev ifb0 root sfq
+# tc qdisc add dev eth0 handle ffff: ingress
+# tc filter add dev eth0 parent ffff: u32 match u32 0 0 action mirred egress redirect dev ifb0
+
+This creates an IFB device named ifb0 and replaces the root qdisc scheduler with SFQ (Stochastic Fairness Queueing)
+which is a classless queueing scheduler. Then it adds an ingress qdisc scheduler on eth0 and redirects all ingress 
+traffic to ifb0
+
+--------------------------------------------------------------------------
+
+Flent Test directory:
+
+/usr/share/flent/flent/tests
+
+--------------------------------------------------------------------
+
+Install git bash:
+
+sudo apt-get install git-core
+
+Check installation:
+
+git --version
+
+------------------------------------------------------------------
+
+Installing Netperf 2.7
+
+https://github.com/HewlettPackard/netperf/releases
+
+sudo apt install g++-4.8
+
+cd netperf-netperf-2.7.0/
+
+export CC=gcc-4.8 CXX=g++-4.8 && ./configure --enable-demo
+
+make
+
+sudo make install    
+
+-----------------------------------------------------------------
+
+Add (temporarily) an 18.04 line to /etc/apt/sources.list 
+Code:
+deb [url] bionic main universe
+And do : sudo apt update && apt install g++-4.8
+
+----------------------------------------------------------
+
+GitHUB Cloning:
+
+https://github.com/tohojo/flent
+
+Press the cloning buttom
+
+locate in the desired subdirectory
+
+git clone <Pasted URL>
+
+------------------------------------------------------------
+Installing Flent from GitHub repository
+
+apt install python3-pip
+pip3 install setuptools
+python3 setup.py install
+
+-------------------------------------------------------------------
+
+ Uploading a project to GitHub:
+
+- To reset a repository:
+  sudo rm -rf .git
+
+- Creating new local repository
+   crate repository in GitHub
+   Clone it in local subdirectory
+   git clone https://github.com/olg32/Math_Python1.git 
+   git init --> No need, only if reinitializing
+   git add .
+   git status ---> shows files and folders included
+   git config user.email oscar.lopez@anuvu.com
+   git commit -m "first commit" 
+   git status
+
+   To create authentication token click to the uppe right icon (profile picture) then click on Settings-- Left column at the bottom  click Develpers Settings -- Personal Access Tokens -- Tokens (classic) -- On the right push buttom 'Generate New Token' -- No expiration -- Select all the scopes -- Finally Generate token -- Copy and Paste
+
+   Now add token:
+
+   git remote set-url origin https://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@github.com/olg32/Statistics_For_Data
+   git push origin main
+
+   if main -> main    DONE!
+
+
+ 
+----------------------------------------------------------
+Adding promiscuous and ifb interfaces
+#!/bin/bash
+ 
+#Set Promiscuous mode
+sudo /sbin/ip link set dev ens192 promisc on
+sudo /sbin/ip link set dev ens224 promisc on
+
+#Create ifb interfaces
+sudo /sbin/ip link add ens192-ifb type ifb
+sudo /sbin/ip link set ens192-ifb up
+sudo /sbin/ip link add ens224-ifb type ifb
+sudo /sbin/ip link set ens224-ifb up
+
+#
+sudo /sbin/tc qdisc add dev ens192-ifb root htb
+sudo /sbin/tc qdisc add dev ens192 handle ffff: ingress
+
+sudo /sbin/tc qdisc add dev ens224-ifb root htb
+sudo /sbin/tc qdisc add dev ens224 handle ffff: ingress
+
+Modify file /usr/sbin/fireqos to add dscp values:
+for tdscp in ${dscp}
+        do
+                dscp_value=
+                tos_value=
+                tos_mask=
+                case "${tdscp^^}" in
+                        any)    ;;
+
+                        CS1)
+                                tos_value="0x20"
+                                tos_mask="0xfc"
+                                ;;
+                        CS2)
+                                tos_value="0x40"
+                                tos_mask="0xfc"
+                                ;;
+                        CS3)
+                                tos_value="0x60"
+                                tos_mask="0xfc"
+                                ;;
+                        CS4)
+                                tos_value="0x80"
+                                tos_mask="0xfc"
+                                ;;
+
+------------------------------------------------------------------
+starting QoS 
+
+# FireQOS configuration file /etc/firehol/fireqos.conf
+sudo fireqos start (Wait 5 to 10 minutes then load graph)
+sudo /usr/sbin/service netdata restart
+# /usr/share/netdata/web/bwtest.html 
+
+r rrul_var -H 10.111.39.122 --test-parameter bidir_streams=7 --test-parameter markings=11,13,15,17,19,20,1
+
+ 
+
+================================================================
+Change from sh shell to bash:
+
+/bin/bash
+--------------------------------------------------------------
+Upgrade Ubuntu:
+
+ 
+$ sudo apt-get update
+$ sudo apt-get upgrade
+
+If you want to update the Kernel only, run:
+$ sudo apt-get upgrade linux-image-generic
+
+--------------------------------------------------------------------
+administrator@bwtest-io-nd:/etc/netplan$ cat 50-cloud-init.yaml
+# This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init's
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        ens160:
+            dhcp4: true
+        ens161:
+            dhcp4: true
+    version: 2
+
+-----------------------------------------------------------------------------
+Install Docker
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+
+5.- Verification
+$ sudo docker run hello-world
+
+6.- add group
+
+$ sudo usermod -aG docker administrator  
+
+7.- Enable docker to statr at reboot
+
+$ sudo systemctl enable docker 
+
+Running iperf in a container:
+
+docker run  -it --rm --name=iperf3-server -p 5201:5201 networkstatic/iperf3 -s ----------------------------> Server
+docker run  -it --rm networkstatic/iperf3 -c 10.152.32.60 ---------> client
+
+Installing:
+
+SERVER Side:
+
+docker image pull networkstatic/iperf3
+docker image ls
+docker container run -it --rm networkstatic/iperf3 -s -p 5201
+
+
+
+
+-------------------------------------------------------------------------------------
+Enabling rsyslog
+
+1- Edit config file: sudo nano /etc/rsyslog.conf
+
+# provides UDP syslog reception
+module(load="imudp")
+input(type="imudp" port="5140") --->Default port 514 is a privileged port so the system can't bind to it unless Logstash is running as the root user. Use 5140 instead 
+
+# provides TCP syslog reception
+module(load="imtcp")
+input(type="imtcp" port="5140")
+
+
+* By default Cisco devices forward syslog messages with default facility of local7
+
+local6.* /var/log/cisco.log
+
+2- Create file:  /var/log/cisco.log
+   sudo chmod 666 cisco.log
+
+3- make syslog listen to messages from remote machines:
+   edit /etc/default/syslogd to include the -r option:
+   SYSLOGD="-r"
+
+4- Restart service: sudo service rsyslog restart
+
+5- Check servicestatus: service rsyslog status
+
+6.- Test:  sudo logger -p local6.debug "is this working?"
+
+on the Router:
+
+logging trap debugging
+logging facility local6 ---> Default is local7
+logging 10.200.8.14
+
+ASR1001HRT-01
+no logging source-interface Loopback0
+no logging host 172.16.11.64
+logging trap notifications
+logging origin-id hostname
+logging facility local6
+logging source-interface Port-channel1.1000
+logging host 172.20.128.123 transport udp port 5140
+
+
+ASR1001HRT-02
+no logging source-interface Loopback0
+no logging host 172.16.11.64
+logging trap notifications
+logging origin-id hostname
+logging facility local6
+logging source-interface Port-channel2.1000
+logging host 172.20.128.123 transport udp port 5140
+
+NEXUS HSW
+
+logging server 172.20.128.123 port 6141 facility local6
+logging server 172.20.128.123 6
+logging origin-id hostname
+
+
+
+Note: A maximumof 4 remotesyslog serverscan be configured.The remotesyslog server can be specifiedusingits IP addressor DNS name. 
+The default protocol for sending syslogs is UDP with a defaultport of 514. For TCP, the defaultport is 601
+---------------------------------------------------------------------------------------------
+Flush and renew dhcp lease
+
+$ sudo dhclient -r ens160
+$ sudo dhclient ens160
+
+-------------------------------------------------------------------------------
+ELK
+
+Java 8:
+
+ sudo apt install openjdk-8-jre apt-transport-https wget ---> ok
+ sudo apt install openjdk-8-jre-headless
+
+ElasticSearch:
+
+- Download from https://www.elastic.co/downloads/elasticsearch
+- install .dev file:
+    sudo dpkg -i elasticsearch-7.7.1-amd64.deb
+-  Edit the file /etc/elasticsearch/elasticsearch.yml
+- uncomment:
+network.host: "localhost"
+#
+# Set a custom port for HTTP:
+#
+http.port: 9200
+
+- sudo systemctl start elasticsearch
+- To test:
+  curl -X GET http://localhost:9200/
+
+If can't connect, try:
+
+sudo systemctl restart elasticsearch
+
+ 
+To delete ES:
+	
+sudo dpkg --remove elasticsearch
+sudo dpkg --purge --force-all elasticsearch
+sudo rm -rf /var/lib/elasticsearch/
+
+
+Kibana:
+- Download from https://www.elastic.co/downloads/kibana
+- install .dev file sudo dpkg -i 
+- sudo nano /etc/kibana/kibana.yml
+- uncomment uncomment the   server.port ,  server.host , and  elasticsearch.hosts 
+- sudo systemctl start kibana
+- test with localhost:5601
+
+
+Because Kibana is configured to only listen on localhost, we must set up a reverse proxy to allow external access to it. We will use Nginx for this purpose:
+- apt-get install nginx
+- cd /etc/nginx/sites-available
+- sudo rm /etc/nginx/sites-enabled/default
+- sudo nano /etc/nginx/sites-available/default
+
+ server {
+      listen 80;
+      server_name 10.200.8.15;
+
+      location / {
+        proxy_pass http://localhost:5601;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+ }
+
+- sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+- Check config: sudo nginx -t
+- sudo systemctl restart nginx
+- sudo systemctl enable nginx
+- Test: http://10.200.8.17/status
+
+Logstash:
+- Download from https://www.elastic.co/downloads/logstash
+  or:  curl -o logstash-7.13.4-amd64.deb https://artifacts.elastic.co/downloads/logstash/logstash-7.13.4-amd64.deb
+- install .dev file sudo dpkg -i 
+- sudo /usr/share/logstash/bin/logstash-plugin update
+- sudo /usr/share/logstash/bin/logstash-plugin install logstash-codec-sflow
+- sudo nano /etc/logstash/conf.d/ciscologger.conf
+
+input {
+  udp {
+    port => 5140
+    type => "IOS-XE"
+      }
+  udp {
+    port => 6141
+    type => "NXOS"
+      }
+ }
+
+
+filter {
+    grok {
+        match => { "host" => "%{IPV4:IP_Address}" }
+         }
+
+  if [type] == "IOS-XE"
+         {
+           grok {
+                  match =>  { "message"=> "(?<N_SEQ>\<\d+\>\d+\:) (?<Hostname>\w+.\w+\:) (?<TIME_UTC>.*\s+\d+\s+\w+\:\d+\:\d+\.\d+\:) %{GREEDYDATA:Event}" }
+                }
+         }
+  if [type] == "NXOS"
+         {
+           grok {
+                  match => { "message"=> "(?<N_SEQ>\<\d+\>)(?<Hostname>\w+.\w+\:) (?<TIME_UTC>.*\s+\w+\s+\d+\s+\d+\:\d+\:\d+\s+\w+\:) %{GREEDYDATA:Event}" }
+                }
+         }
+      }
+
+output {
+    elasticsearch {
+      hosts => ["localhost:9200"]
+      sniffing => true
+      index => "cisco-%{+YYYY.MM.dd}"
+       }
+ }
+
+ 
+----------------------------------------------------------------------------------
+
+For troubleshooting:
+
+tail -f /var/log/logstash/logstash-plain.log
+
+
+- Cisco Syslog Message Format:
+
+2021-07-09T19:10:48.953276-04:00 10.214.8.5 GE_HUB1_INT_SW2.MIR: 2021 Jul  9 23:10:48 UTC: %ETHPORT-5-IF_DOWN_ADMIN_DOWN: Interface Ethernet1/38 is down (Administratively down)
+
+|     Time Stamp w/time zone     |Source IP|   hostname         | Time Stamp UTC          | Facility-severity-mnemonic | Description
+
+
+- Test: /usr/share/logstash/bin/logstash --config.test_and_exit -f /etc/logstash/conf.d/cisco.conf
+
+- To check logs:/var/log/logstash$ nano logstash-plain.log 
+- To debug:sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/cisco.conf --debug
+ 
+IN Kibana:
+
+- Go to Index Patterns
+- Create Index Pattern 
+
+
+
+ELASTICSEARCH:
+
+- uncomment the following lines in: sudo nano /etc/elasticsearch/elasticsearch.yml
+ network.host: "localhost"
+ http.port:9200 
+
+- To stop ES:
+
+sudo systemctl stop elasticsearch.service
+
+KIBANA:
+
+- uncomment the following lines in: sudo nano /etc/kibana/kibana.yml
+  server.port: 5601
+  elasticsearch.url: "http://localhost:9200"
+  
+  sudo systemctl restart kibana
+  systemctl enable kibana
+  systemctl start kibana
+
+  sudo systemctl restart kibana
+  sudo systemctl status ntopng
+
+- To stop Kibana
+
+sudo systemctl stop kibana.service
+------------------------------------------------------------------------------------------------
+The procedure to change the computer name on Ubuntu Linux:
+
+    Type the following command to edit /etc/hostname using nano or vi text editor:
+    sudo nano /etc/hostname
+
+    Delete the old name and setup new name.
+    Next Edit the /etc/hosts file:
+
+    sudo nano /etc/hosts
+    Replace any occurrence of the existing computer name with your new one.
+    Reboot the system to changes take effect:
+    sudo reboot
+
+
+-------------------------------------------------------------------------------------------
+Enabling monitoring xpack
+
+In logstash.yml you should set (once authentication is enabled in ES):
+
+# X-Pack Monitoring
+# https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.username: logstash_system
+xpack.monitoring.elasticsearch.password: secret
+xpack.monitoring.elasticsearch.hosts: ["http://localhost:9200"]
+
+In kibana.yml
+
+xpack.monitoring.enabled: true
+xpack.monitoring.kibana.collection.enabled: true
+
+In elasticsearch.yml
+
+xpack.monitoring.enabled: true
+xpack.monitoring.collection.enabled: true
+
+
+
+-------------------------------------------------------------------------------------
+Speedtest Installation bwtest /usr/local/
+
+sudo apt update
+sudo apt install -y git-core
+sudo apt install -y apache2 php
+sudo git clone https://github.com/adolfintel/speedtest.git
+cd /var/www/
+sudo rm -rfv html
+sudo git clone https://github.com/olg33/html
+cd html
+sudo chown -R www-data *
+sudo nano index.html
+TEST:
+sudo cp -R backend example-singleServer-pretty.html *.js /var/www/html/
+sudo mv example-singleServer-chart.html index.html
+sudo chown -R www-data *
+
+sudo cp  example-singleServer-customSettings.html /var/www/html/index.html
+
+----------------------------------------------------------------------------
+
+Ntopng Installation
+
+wget http://apt.ntop.org/20.04/all/apt-ntop.deb 
+or
+apt install pfring-dkms nprobe ntopng n2disk cento
+
+http://packages.ntop.org/apt/
+
+- Unremark sudo nano /etc/ntopng/ntopng.conf 
+  
+-i=ens160
+-w=3000
+add
+-l=1 for login passby
+--community
+- for ES integration:
+  sudo nano /etc/ntopng/ntopng.conf 
+  -F "es;ntopng;ntopng-%Y.%m.%d;http://localhost:9200/_bulk;"
+
+
+  ntopng -F  es;flows;ntopng-%Y.%m.%d;http://10.200.8.12:9200/_bulk; 
+  ntopng -F "es;ntopng;ntopng-%Y.%m.%d;http://localhost:9200/_bulk;"
+ 
+ sudo systemctl restart ntopng
+
+------------------------------------------------------------------------------
+killing a process with top
+
+- find the processs, press k
+- enter PID
+- If you want to use SIGTERM(15), then simply press enter as it is the default signal. If you want to use SIGKILL(9), then type 9 and press enter.
+
+-----------------------------------------------------------------------------------
+Extensions for Ubuntu 20
+
+sudo apt install gnome-tweak-tool
+
+apt search gnome-shell-extension
+
+$ sudo apt install  gnome-shell-extension-multi-monitors
+$ sudo apt install  gnome-shell-extension-show-ip
+$ sudo apt install  gnome-shell-extension-system-monitor
+
+-------------------------------------------------------------------------
+
+init or systemd:
+
+$ ps -p 1
+    PID TTY          TIME CMD
+      1 ?        00:00:03 systemd
+
+systemctl enable kibana.service
+
+---------------------------------------------------------
+changing login page Ubuntu 20.04
+
+Location of Ubuntu Logo in login screen:
+
+/usr/share/plymouth/ubuntu-logo.png
+
+git clone https://github.com/PRATAP-KUMAR/focalgdm3.git
+
+ sudo apt install libglib2.0-dev
+
+sudo ./focalgdm3/focalgdm3 --set
+
+color: #03396C
+
+installing tweaks:
+
+$ sudo apt install gnome-tweak-tool
+
+-------------------------------------------------------------------
+
+How to copy files between ESXi hosts via scp
+
+- On source and destination:
+
+- Enable SSH:
+ Manage -> Host -> Services -> TM-SSH -> "Start"
+
+- Allow SSH Client in ESXi Firewall:
+ Networking -> Firewall Rules -> SSH Client -> "Enable"
+
+- Enable source ESXi Shell:
+ Manage -> Services -> TSM -> "Start" -> login via PuTTY
+
+
+----------------------------------------------------------------------------
+
+Update ubuntu Linux software via cli
+
+sudo apt-get update 
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y  ------> Kernel Updates
+sudo apt autoremove -y
+
+---------------------------------------------------------------------------
+
+Paramiko basic commands
+
+import paramiko
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect('10.1.1.1', username='administrator', password='huemac86')
+ssh.connect('10.1.1.1', username='administrator', password='huemac86', look_for_keys=False, allow_agent=False)
+remote_conn = ssh.invoke_shell()
+remote_conn.send("show ip int brief\n")
+output = remote_conn.recv(5000)
+print(output)
+
+---------------------------------------------------------------------------------------
+
+Netmiko Basic Commands
+
+from netmiko import ConnectHandler
+cisco = { 
+          'device_type': 'cisco_ios', 
+          'host': '10.1.1.1', 
+          'username': 'administrator', 
+          'password': 'huemac86',
+      }
+net_connect = ConnectHandler(**cisco)
+
+
+
+cisco = { 
+          'device_type': 'cisco_ios', 
+          'host': '10.1.1.1', 
+          'username': 'administrator', 
+          'password': 'huemac86',
+          'use_keys': False,
+          'allow_agent': False
+      }
+net_connect = ConnectHandler(**cisco)
+net_connect.find_prompt()
+output = net_connect.send_command("show ip int brief")
+print(output)
+
+----------------------------------------------------------------------------------
+
+NetDev Terminal Public Key
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIqw8iXn6FzUYV9RIqyHkaUUzLbik6mC
+aF3kIX+1U117VUvzhvZhxmwtpeUisDPLef0UjfW+V7xJEbqzjY5+R8wd/x5ABDB6RCzoFl
+4nbD/1AlizGKDK4yznUvoSHBbklprxC0BF57+auBJxm9/u9NkUv34OFQUOBEM7B/HWgnmD
+8FIuhvdiQWlYOuqLfro8aCiKqp/XbU+pkQCytWHKFvTYwyV3enQzXMBm5Ygs6R5pYpqCMB
+uHcqf37JJITN2A9Nth3zr7dhrHU1EKIahRJ/QxLYgbIBBo8O0rSWDAeyZp6UzgsGQr1/4z
+5FJQrxR59qozd4ZM5wAP05sTXjMJsmIf3OwA8CH2tkVlYOmYftToSN5nWWgmzW3mjFo4nR
+0U0reidchedZmjFR2ZOTpLAnPIbrYDb0O2tmByoJ/HPXO3k6vCLPFa+/M9/60AGJuz1hEV
+0pkBFYEQXG+Y8k/PYwyWFLvrZT/wKw6wR0MGOUg18ZO33Nk8Gue3deUTi1hAk= adminis
+trator@Teleport-VM
+
+--------------------------------------------------------------------------------------
+How to renew DHCP address
+
+$ sudo dhclient -r    #release current address
+$ sudo dhclient ens160  #ask for new address
+ 
+-----------------------------------------------------------------------------------
+
+apt list --upgradable
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+VM UPGRADE PROCEDURES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+administrator
+oeIP2019!
+
+a. Create a domain name:
+hostname -f
+- sudo nano /etc/hostname  
+- sudo nano /etc/hosts
+ 127.0.0.1    localhost
+ 127.0.1.1    hol.01.bwt
+
+Restart or:
+sudo sysctl kernel.hostname=rai.07.enk
+
+--------------------------------------------------------------------------------
+a1. If installing a BWT VM at HOL, add a static route for the smtp relay host:
+
+sudo nano /etc/rc.local
+ip route add 216.7.159.196/32 via 172.20.144.1 dev ens160
+----------------------------------------------------------------------------------
+
+
+b. Install mailutils ---> Must be manual to access grahic config
+ 
+sudo apt update
+sudo apt-get install -y mailutils
+
+to re-configure: dpkg-reconfigure postfix
+
+c. ##########Configure postfix (IF USING GMAIL SMTP RELAY HOST)########################
+ ######################################################################################
+ Note: If postfix config window needs to be re-launched, type: dpkg-reconfigure postfix
+ - Internet Site
+ -  hol.01.bwt
+
+ sudo nano /etc/postfix/main.cf
+===========================================================================
+# TLS parameters
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+myhostname = hol-01-bwt.globaleagle.com
+myorigin = /etc/mailname   ---> echo MIR-01-ENK > sudo nano /etc/mailname
+mydestination = localhost.globaleagle.com, , localhost
+relayhost = [smtp.gmail.com]:587
+# Enables SASL authentication for postfix
+smtp_sasl_auth_enable = yes
+# Disallow methods that allow anonymous authentication
+smtp_sasl_security_options = noanonymous
+# Location of sasl_passwd we saved
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+# Enable STARTTLS encryption for SMTP
+smtp_tls_security_level = encrypt
+# Location of CA certificates for TLS
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+============================================================================ 
+
+d. Create a new file to store the SMTP password:
+ sudo nano /etc/postfix/sasl/sasl_passwd
+  [smtp.gmail.com]:587 olg8510@gmail.com:Tenoch8510
+ To hash pw type:
+  sudo postmap /etc/postfix/sasl/sasl_passwd 
+ Also:
+ sudo chown root:root /etc/postfix/sasl/sasl_passwd
+ sudo chmod 600 /etc/postfix/sasl/sasl_passwd
+ 
+d1. sudo chfn -f "Teleport.Notifications" administrator ---->???
+The command above modifies the user account administrator with MIR-02-ELK
+
+e. Restart
+ sudo systemctl restart postfix
+##################################################################################################################################
+
+c. **************************Configure postfix (IF USING HOLMDEL SMTP RELAY HOST)****************************
+*********************************************************************************************************************************
+sudo nano /etc/postfix/main.cf
+===========================================================================
+# TLS parameters
+ 
+myhostname = mir.04.bwt
+ 
+# mydestination = $myhostname, BWT-MIR-04-LAST.globaleagle.com, localhost.globaleagle.com, , localhost
+#mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+relayhost = [216.7.159.196]:25
+relayhost = [holmail02.mtnsat.com]:25
+message_size_limit = 0
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+# Disables SASL authentication for postfix
+smtp_sasl_auth_enable = no
+# Enable methods that allow anonymous authentication
+smtp_sasl_security_options = anonymous
+# Enable STARTTLS encryption for SMTP
+#smtp_tls_security_level = encrypt
+# Location of CA certificates for TLS
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+canonical_maps = hash:/etc/postfix/canonical
+**************************************************************************************************************************************
+TESTING:
+To check SMTP host:
+  Ping WON'T WORK!!!!!!
+- nc -vz holmail02.mtnsat.com 587
+  nc -vz holmail02.mtnsat.com 25
+  nc -vz 216.7.159.196 25
+if icmp is not enabled, try:
+- telnet 216.7.159.196 25
+To see mail queue:
+sendmail -bp
+Mail logs: nano /var/log/mail.log
+*********************************************************************************************************************************
+d. Rename administrator account
+ 
+sudo chfn -f "rai.07.enk" administrator
+
+e. create canonical address mapping
+
+sudo nano /etc/postfix/canonical
+
+administrator@rai.06.enk  rai.06.enk@globaleagle.com
+
+f. execute postmap against canonical file
+
+sudo postmap /etc/postfix/canonical 
+
+g. Restart
+ sudo systemctl restart postfix
+or
+ sudo postfix reload
+
+h. Test
+
+ echo testing account, please disregard. | mail -s "testing" oscar.lopez@anuvu.com
+
+
+
+i. Create script
+
+sudo nano /etc/cron.daily/reboot-check
+
+#!/bin/bash
+
+Name=$(hostname)
+if [ -f /var/run/reboot-required ]; then
+	echo "A reboot is required following security updates to Virtual Machine ${Name} " | mail -s "<Bash Script> Reboot Required" oscar.lopez@globaleagle.com
+fi
+
+sudo chown root:root /etc/cron.daily/reboot-check
+sudo chmod 755 /etc/cron.daily/reboot-check
+
+
+To test:
+
+   run-parts /etc/cron.daily
+
+--------------------------------------------------------------------------------------------------------------
+
+Unattended upgrades config
+
+a) Install
+
+sudo apt install unattended-upgrades 
+ 
+
+b) Run
+sudo dpkg-reconfigure -plow unattended-upgrades
+
+c) Modify
+sudo nano /etc/apt/apt.conf.d/10periodic  REMOVE
+
+APT::Periodic::Update-Package-Lists "10"; --> Remove
+APT::Periodic::Download-Upgradeable-Packages "0"; 
+APT::Periodic::AutocleanInterval "20"; 
+
+
+d) Modify
+sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
+
+Unattended-Upgrade::Allowed-Origins {
+        "${distro_id}:${distro_codename}";
+        "${distro_id}:${distro_codename}-security";
+        "${distro_id}ESMApps:${distro_codename}-apps-security";
+        "${distro_id}ESM:${distro_codename}-infra-security"";
+        "${distro_id}:${distro_codename}-updates";
+};
+
+Unattended-Upgrade::DevRelease "false";
+Unattended-Upgrade::AutoFixInterruptedDpkg "true";
+Unattended-Upgrade::MinimalSteps "false";
+Unattended-Upgrade::InstallOnShutdown "false";
+Unattended-Upgrade::Mail "oscar.lopez@anuvu.com";
+Unattended-Upgrade::MailOnlyOnError "false";
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+Unattended-Upgrade::Automatic-Reboot "false";
+ 
+e) To configure frequency:
+sudo nano /etc/apt/apt.conf.d/20auto-upgrades 
+APT::Periodic::Update-Package-Lists "15";  
+APT::Periodic::Download-Upgradeable-Packages "15"; 
+APT::Periodic::Unattended-Upgrade "30"; 
+APT::Periodic::AutocleanInterval "30"; 
+
+DEACTIVATE:
+
+APT::Periodic::Update-Package-Lists "0";
+APT::Periodic::Download-Upgradeable-Packages "0";
+APT::Periodic::AutocleanInterval "0";
+APT::Periodic::Unattended-Upgrade "0";
+
+NOTE:
+By default, unattended upgrades will install available updates daily. To confirm, take a look at the config file: /etc/apt/apt.conf.d/20auto-upgrades. It should look like this:
+
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+
+APT::Periodic::Update-Package-Lists   allows you to specify the frequency (in days) at which the package lists are refreshed.
+
+APT::Periodic::Unattended-Upgrade   When enabled, the daily script will execute unattended-upgrade.
+
+APT::Periodic::Download-Upgradeable-Packages   Frequency (in days) for the downloading of the actual packages.
+
+APT::Periodic::AutocleanInterval   It controls how often obsolete packages are removed from the APT cache. This keeps the APT cache at a reasonable size and means that you don t need to worry about that task.
+
+
+---------------------------------------------------------------------------------------------------------
+
+Unattended upgrade has its own log-file in /var/log/unattended-upgrades/unattended-upgrades.log
+
+----------------------------------------------------------------------------------------------------
+
+sudo systemctl restart unattended-upgrades
+sudo /usr/sbin/service unattended-upgrades status
+-------------------------------------------------------------------------------------------------
+
+Forwarding ROOT messages to oscar.lopez@globaleagle.com:
+
+- edit the /etc/aliases:
+ sudo nano /etc/aliases
+ root: oscar.lopez@anuvu.com
+ postmaster:    root
+
+ sudo newaliases
+  
+- reboot
+  sudo systemctl restart postfix
+
+- Test
+ echo testing root account, please disregard. | mail -s "testing" root
+
+------------------------------------------------------------------------------------------------
+Script to check and notify Hard Drive usage
+
+Command: df -h grep /dev/sda5
+
+ -l
+
+'/dev/sda5' for ENK 'dev/sda1' for BWT
+
+sudo nano /etc/cron.daily/df-check
+
+#!/bin/bash
+
+Name=$(hostname)
+current_usage=$( df -h | grep '/dev/sda5' | awk {'print $5'} )
+max_usage=80%
+
+if [ ${current_usage%?} -ge ${max_usage%?} ]; then
+    mailbody="Hard drive is running out of space at Virtual Machine ${Name}. Current usage: ${current_usage}."
+    echo ${mailbody} | mail -s "Hard Drive Usage Alert" oscar.lopez@globaleagle.com
+fi
+
+sudo chown root:root /etc/cron.daily/df-check
+sudo chmod 755 /etc/cron.daily/df-check
+-------------------------------------------------------------------------------------------------------
+Script to check that no system reboot is pending
+
+sudo nano /etc/cron.daily/reboot-check
+
+#!/bin/bash
+if [ -f /var/run/reboot-required ]
+  then
+    mailbody="System Reboot required at Virtual Machine $(hostname)"
+    echo ${mailbody} | mail -s " Updates have been applied. Please reboot" oscar.lopez@anuvu.com
+fi
+
+sudo chown root:root /etc/cron.daily/reboot-check
+sudo chmod 755 /etc/cron.daily/reboot-check
+-------------------------------------------------------------------------------------------------------
+
+Script to check that no security updates are pending
+
+sudo nano /etc/cron.daily/secupdate
+
+#!/bin/bash
+
+Name=$(hostname)
+Updates=$( /usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2 )
+Max=41
+
+if [ $Updates -gt $Max ]
+ then
+    mailbody="Pending Security updates at Virtual Machine ${Name}. Number of pending Updates: ${Updates}."
+    echo ${mailbody} | mail -s "Pending Security Updates Alert" oscar.lopez@anuvu.com
+fi 
+
+sudo chown root:root /etc/cron.daily/secupdate
+sudo chmod 755 /etc/cron.daily/secupdate
+
+administrator
+sudo rm /etc/cron.daily/secupdate
+Gl0b@l3agle$
+------------------------------------------------------------------------------------------------------------------------------
+
+/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2 ----> Security Updates
+
+/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1 ----> Regular Updates
+
+-------------------------------------------------------------------------------------------------------
+
+
+sudo nano /usr/share/netdata/web/PortChanTraffic.html
+var RELOAD_EVERY = 120;
+service netdata restart
+
+sudo unattended-upgrade --dry-run -d ---------> TO Display security updates but not installing:
+
+sudo unattended-upgrade -d -v ------------> Manually installing security updates:
+
+ /var/log/unattended-upgrades/unattended-upgrades.log -----> Logs
+
+-----------------------------------------------------------------------------------------------------------
+update netdata:
+
+sudo su
+sudo nano PortChanTraffic.html
+var RELOAD_EVERY = 120;
+
+
+
+
+------------------------------------------------------------------------------------------------------
+Copying files between servers via SCP
+
+scp /home/administrator/ftp/Mwall.png opsengip@172.20.128.123:/home/opsengip/Pictures --> From server to destination
+scp /home/administrator/ftp/Mwall.png opsengip@172.20.128.123:/home/opsengip/Pictures
+scp administrator@10.200.8.17:/home/administrator/ftp/Mwall.png /home/administrator/Pictures
+scp administrator@10.200.8.17:/home/administrator/ftp/Mwall.png /home/OpsEngIP/Pictures/ --> From destination to server
+
+scp /home/administrator/Downloads/code_1.86.2-1707854558_amd64.deb administrator@10.152.32.60:/home/administrator/Downloads/code_1.86.2-1707854558_amd64.deb
+
+scp /usr/share/netdata/web/GE_Logo.png administrator@172.20.144.251:/home/administrator/ftp/
+
+nc -vz smtp.gmail.com  587  ----> Ping IP address and port
+----------------------------------------------------------------------------------
+
+sudo code --user-data-dir="~/.vscode-root"  ---> Runs vs code as root
+
+-----------------------------------------------------------------------------------------
+
+usefull statistics
+
+# uptime ---> how long since the last reboot
+# free -----> Memory usage
+# iostat ----> CPU load and disk activity ( sudo apt install sysstat)
+# mpstat -P ALL ----> Monitors multiprocessor usage
+# top
+# sudo apt-get install htop
+# ps -ef | grep firefox
+# sudo nethogs (sudo apt install nethogs)
+# date  ---> Displays date and time
+# nproc ---> displays the number of CPUs used
+Ubuntu/Linux version:
+
+cat /etc/os-release
+lsb_release -a
+hostnamectl
+Linux kernel version: uname -r
+ethtool eth1 ---> Shows duplex settings on card
+
+
+$ sudo apt-get upgrade linux-image-generic
+-----------------------------------------------------------------------------------------------
+To end  a telnet session
+
+Holdi down the  Ctrl  key and push the  ]  key
+type quit
+
+--------------------------------------------------------------
+ 
+VS Code (VSC)
+Install:
+- Python
+- Python Debugger
+- Python Extension Pack
+- Prettier
+- vscode-icons
+- Code runner
+- Yaml
+ 
+- HTML CSS Support
+- Color Highlight
+- colorize
+= Git Extension Pack
+
+Color Theme: Dark (Visual Studio C/C++)
+
+To modify remarks color in theme type:
+
+ctr/shift/p 
+
+select Open Settings (JSON)
+
+Add:
+
+"editor.tokenColorCustomizations": {
+        "comments": "#FFF000",
+    },
+
+------------------------------------------------------------------------------
+
+NETDATA:
+Backbone bandwidth display:
+installation:
+sudo su
+bash <(curl -Ss https://my-netdata.io/kickstart.sh)
+ 
+scp administrator@172.20.128.123:/home/administrator/ftp/GE_Logo.png /home/administrator/ftp/
+scp administrator@172.20.128.123:/home/administrator/ftp/PortChanTraffic.html /home/administrator/ftp/
+
+sudo mv /home/administrator/ftp/*.* /usr/share/netdata/web/
+cd 
+ sudo chown netdata GE_Logo.png
+ sudo chgrp netdata GE_Logo.png
+ sudo chown netdata PortChanTraffic.html
+ sudo chgrp netdata PortChanTraffic.html
+ sudo nano PortChanTraffic.html
+
+ sudo chown netdata bwtest2.html
+ sudo chgrp netdata bwtest2.html
+ sudo chown netdata OpsEngIP_1.html
+ sudo chgrp netdata OpsEngIP_1.html
+
+**** New Netdata version: *******
+
+/var/lib/netdata/www/PortChanTraffic.html
+ sudo chown root anuvu-logo-metal.svg
+ sudo chgrp root anuvu-logo-metal.svg
+ sudo chown root PortChanTraffic.html
+ sudo chgrp root PortChanTraffic.html
+
+For Vessels:
+
+ sudo chown root Anuvu-logo-metal.svg
+ sudo chgrp root Anuvu-logo-metal.svg
+ sudo chown root anuvu-logo-white.png
+ sudo chgrp root anuvu-logo-white.png
+ sudo chown root OpsEngIP_0.html
+ sudo chgrp root OpsEngIP_0.html
+
+
+
+ <div style="width: 49%; display: inline-block; color: #00f9ff; height:80px;">
+                <div data-netdata="ipv4.errors"
+                     data-title="TOTAL NETWORK ERRORS"
+                     data-chart-library="dygraph"
+                     data-width="100%"
+                     data-height="200%"
+                     data-after="-300"
+                     data-colors="#FE0000"
+                ></div>
+            </div>
+
+            <div style="width: 49%; display: inline-block; color: #00f9ff; height:80px;">
+                <div data-netdata="ipv4.tcpsock"
+                     data-title="TOTAL ESTABLISHED TCP CONNECTIONS"
+                     data-chart-library="dygraph"
+                     data-width="100%"
+                     data-height="200%"
+                     data-after="-300"
+                     data-colors="#FE0000"
+                ></div>
+            </div>
+
+
+----------------------------------------------------------------------------------
+localhost:19999
+
+By default, Netdata stores its web server files at /usr/share/netdata/web. /usr/local/etc ---> qos   usr/etc/network/interfaces
+As with finding the location of your netdata.conf file, you can double-check this location by loading up http://HOST:19999/netdata.conf 
+Try visiting http://HOST:19999/custom-dashbord.html in your browser.
+
+Disabling email:
+
+sudo nano /etc/netdata/health_alarm_notify.conf
+
+sudo nano /etc/netdata/conf.d/health_alarm_notify.conf 
+
+SEND_EMAIL="NO"
+
+--------------------------------------------------------------------------------------------------------
+
+To disable all the alarms in netdata, by editing:
+
+sudo nano /etc/netdata/netdata.conf 
+
+and setting
+
+[health]
+  enabled = no
+
+sudo /usr/sbin/service netdata restart
+
+-----------------------------------------------------------------------------------------------------------------
+
+sudo apt-get upgrade linux-image-generic
+
+LAST UPGRADE 10/17/20
+
+----------------------------------------------------------------------------
+To create a symbolic link:
+
+sudo ln -s /opt/Postman/Postman /usr/local/bin/postman  (From --> To)
+
+
+-------------------------------------------------------------------------------
+
+To create a desktop file for an app:
+
+sudo gedit /usr/share/applications/postman.desktop
+
+Add following lines
+
+[Desktop Entry]
+Type=Application
+Name=Postman
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Exec="/opt/Postman/Postman"
+Comment=Postman GUI
+Categories=Development;Code;
+
+ 
+
+--------------------------------------------------------------------------------------
+
+/dev/null is a special file called the null device in Unix systems. Colloquially it is also called the bit-bucket or the blackhole because it immediately discards anything written to it and only returns an end-of-file EOF when read.
+ 
+-----------------------------------------------------------------------
+
+Tail command
+
+The tail command print the last N number of data of the given input. By default it prints the last 10 lines of the specified files.
+
+tail [OPTION]... [FILE]...
+
+Options:
+  -n ---lines
+  -c ---bytes
+  -q ---quiet
+  -v ---verbose
+  -f ---follow
+
+PROGRAMMING:
+
+Creates a file with a single line:
+
+      echo hello there again > myfile.osc
+
+Creates 5 subdirectories at once:
+
+     for i in $(seq 5); do mkdir $i; done ----> creates 5 directories called 1 2 3 4 5 
+
+
+starting QoS 
+
+# FireQOS configuration file /etc/firehol/fireqos.conf
+# Fireqos script: /usr/sbin/fireqos
+sudo fireqos start (Wait 5 to 10 minutes then load graph)
+/usr/sbin/service netdata restart
+# /usr/share/netdata/web/bwtest.html 
+
+flent rrul_var -H 172.20.128.122 --test-parameter bidir_streams=7 --test-parameter markings=11,13,15,17,19,21,23
+
+
+
+ 
+GitHUB Cloning:
+
+https://github.com/tohojo/flent
+
+Press the cloning buttom
+
+locate in the desired subdirectory
+
+git clone <Pasted URL>
+
+------------------------------------------------------------
+Installing Flent from GitHub repository
+
+apt install python3-pip
+pip3 install setuptools
+python3 setup.py install
+
+-------------------------------------------------------
+
+sudo tcpdump -i ens160 -v -s0 -w test1.pcap
+
+
+Coping a single file via SCP
+scp /home/administrator/test1.pcap administrator@10.152.18.6:/home/administrator/test1.pcap --> From server to destination
+
+Copying multiple files via SCP
+scp source/file file2 file3 user@server:/destination
+
+Copying a folder via SCP
+scp -r /home/myfolder/*  root@example.com:/opt/odoo/scp /home/administrator/ISOs/ubuntu.7z.006 ubuntu.7z.007 ubuntu.7z.008 ubuntu.7z.009 ubuntu.7z.010  administrator@10.152.59.60:/home/administrator/ftp/
+
+
+Ununstalling packages installed with setup.py:
+
+$ pip3 freeze
+$ pip uninstall package.name.you.have.found ---> Ignore  the version part (whatever follows == or -).
+
+-------------------------------------------------------------
+
+sudo nano /etc/cron.daily/df-check-temp
+
+'/dev/sda5' for ENK 'dev/sda1' for BWT
+
+#!/bin/bash
+
+Name=$(hostname)
+current_usage=$( df -h | grep '/dev/sda5' | awk {'print $5'} )
+mailbody="Current HD occupancy at Virtual Machine ${Name} is : ${current_usage}."
+echo ${mailbody} | mail -s "Hard Drive Usage Alert" oscar.lopez@globaleagle.com
+
+sudo chown root:root /etc/cron.daily/df-check-temp
+sudo chmod 755 /etc/cron.daily/df-check-temp
+
+-------------------------------------------------------------------------------------
+
+sudo service httpd start
+?sudo service httpd stop
+?sudo service httpd restart
+
+sudo systemctl stop httpd
+sudo systemctl start httpd
+sudo systemctl restart httpd
+sudo systemctl unmask httpd
+
+sudo systemctl enable promisc
+sudo systemctl disable promisc
+
+------------------------------------------------------------------------------------------------
+
+Writing the output into the file
+
+The syntax is
+command > filename
+
+For example, send output of the ls command to file named foo.txt
+$ ls > foo.txt
+
+---------------------------------------------------------------------------------------------------
+
+Cheks if a package is installed:
+
+$ apt -qq list awscli
+awscli/stable,now 1.4.2-1 all [installed]
+
+----------------------------------------------------------------------------------------------------
+
+userdel -r <username> -------> removes a user account
+sudo killall -u <username> ---> Same in case the user is logged in  
+
+---------------------------------------------------------------------------------------------------
+ Reinstalling netdata
+
+sudo su
+
+bash <(curl -Ss https://my-netdata.io/kickstart.sh) --stable-channel --reinstall
+
+--------------------------------------------------------------------------------
+
+ Command to check pending security updates
+
+/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2
+
+------------------------------------------------------------------------------
+
+
+Enabling copy/Paste on ESXi 6.5:
+
+Power off the VM.
+Enable the Copy & Paste for the Windows/Linux virtual machine:
+
+    Right-click the virtual machine and click Edit Settings.
+    Click the VM Options tab, expand Advanced, and click Edit Configuration.
+
+isolation.tools.copy.disable          FALSE
+isolation.tools.paste.disable         FALSE
+isolation.tools.setGUIOptions.enable  TRUE -----> 6.7
+
+--------------------------------------------------------------------------------
+
+Renewing Eval license on esxi
+
+- ssh to host
+- rm -r /etc/vmware/license.cfg  --> Removes current license
+- cp /etc/vmware/.#license.cfg /etc/vmware/license.cfg --> Copy over the new evaluation license, which is already on the host
+- /etc/init.d/vpxa restart ---> Restart ESXi services
+- Apply:
+vim-cmd vimsvc/license --show
+vim-cmd vimsvc/license --set=00000-00000-00000-00000-00000
+vim-cmd vimsvc/license --show
+
+
+To connect to a XRv via serial port:
+
+go to settings
+choose serial port
+check connect at power on
+Use network
+Direction: Server
+
+add a serial to the VM, with settings as server telnet://:22000
+
+
+
+----------------------------------------------------------------------------------------------
+ To export OVAs from different esxi versions:
+
+ - Select the SecureAuthIdPAppliance-2012r2-vmware.X.0-vX.X-XXXXXXXX.ova file and use 7-Zip or WinZip to extract its contents to a folder of the same name, without the file extension   that is: SecureAuthIdPAppliance-2012r2-vmware.X.0-vX.X-XXXXXXXX
+
+ -The folder should contain the following extracted contents: .vmdk files, .ovf file, and .mf file
+
+ - Right-click the .ovf file and edit it in a text editor such as Notepad
+
+ - Find the line <vssd:VirtualSystemType>vmx-##</vssd:VirtualSystemType> and change the vmx-## value --> 13 = 6.5 | 14 = 6.7 | 19 = 7.0
+
+         e.g. change vmx-10 to vmx-09, or to a different hw-version working with the ESXi
+
+ - Save changes to the .ovf file and close the file
+
+ - OPTIONAL: Calculate the SHA-1 hash of the .ovf file and replace the hash value in the .mf file
+
+    NOTE: Removing the .mf file from the OVF file structure (folder) typically works
+
+6. Import the OVF template, as customary, in the environment
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Quick command for converting line ending:
+
+dos2unix thescript.sh
+
+-----------------------------------------------------------------------------------------------------
+
+Removing Docker
+
+sudo apt-get purge -y docker-engine docker docker.io docker-ce  
+sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce  
+sudo umount /var/lib/docker/
+sudo rm -rf /var/lib/docker /etc/docker
+sudo rm /etc/apparmor.d/docker
+sudo groupdel docker
+sudo rm -rf /var/run/docker.sock
+sudo rm -rf /usr/bin/docker-compose
+-------------------------------------------------------------------------------
+
+New release '20.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+-----------------------------------------------------------
+
+
+C:\Program Files (x86)\VMware\VMware Remote Console\vmrc.exe vmrc://[USERNAME]@[VC]/?moid="vm-324"
+
+----------------------------------------------------------------------------------------------------------
+
+SPAN CONFIG HUB_SW_1:
+
+interface Ethernet1/41
+  description Super Micro ETH0 (vmnic3 ac:1f:6b:6e:90:31) SPAN-MON-SW1
+  switchport monitor
+
+monitor session 1 
+  description SPAN-MON-@-SW1-Port-Channels
+  source interface port-channel1 both
+  source interface port-channel2 both
+  destination interface Ethernet1/41
+  no shut
+
+SPAN CONFIG HUB_SW_2:
+
+interface Ethernet1/41
+  description Super Micro ETH0 (vmnic3 ac:1f:6b:6e:90:31) SPAN-MON-SW1
+  switchport monitor
+
+monitor session 1 
+  description SPAN-MON-@-SW2-Port-Channels
+  source interface port-channel1 both
+  source interface port-channel2 both
+  destination interface Ethernet1/41
+  no shut
+
+----------------------------------------------------------------------------------------
+
+Uninstall ntopng
+
+curl -s https://raw.githubusercontent.com/ntop/packager/master/uninstall_all_ntop_packages.sh | sudo bash
+
+Install ntopng
+
+apt-get install pfring
+apt-get install pfring-dkms nprobe ntopng n2disk cento 
+
+--------------------------------------------------------------------------------------------------
+Installing lftp to transfer large files:
+
+- ON Destiny Server:
+
+  sudo apt-get install lftp
+
+- Move to destination Directory
+     
+   cd Downloads
+
+  lftp administrator@<Target Server>
+
+  lftp administrator@Target Server:~> cd <Target Directory>
+
+  lftp administrator@Target Server:~> ls -l --> Lists files in sub-directory
+
+  lftp administrator@Target Server>:/ftp> pget -c -n 10 <Target File>  ------> For single File
+
+  mirror --verbose --use-pget-n=8 -c --verbose ENK_Sniffer_1.1 /home/administrator/Downloads/ ---> Transfers entire Folder
+
+  mirror --verbose --use-pget-n=8 -c --verbose /remote/directory/that-you-want-to-download /local/directory/to-save
+
+  mirror --verbose --use-pget-n=10 -c --verbose /OVFs/BW_Test_Teleport_2.0 /home/administrator/OVFs/
+--------------------------------------------------------------------------------------------------------------------------
+
+Internet Speed Test
+
+Make sure the file you use in your test is > 50mb to get good results. Dependancies: sudo apt-get install lftp iperf Show Sample Output
+
+lftp -e 'pget http://address_to_file; exit; '
+\---------------------------------------------------------------------------------------------------------------
+
+RDP
+
+sudo apt install vino
+sudo apt install xrdp
+systemctl enable xrdp
+systemctl status xrdp
+
+sudo vi NetworkManager.conf
+  
+    [ifupdown]
+    managed=true
+
+on 01-network-manager-all.yaml
+
+   network:
+    renderer: NetworkManager
+    ethernets:
+
+Restart VM
+
+---------------------------------------------------------------------------------------------
+
+sudo nano /etc/cron.daily/no_sec_ipadd
+
+
+#!/bin/bash
+
+dhclient -r
+dhclient -r
+dhclient ens160
+
+
+
+sudo chown root:root /etc/cron.daily/no_sec_ipadd
+sudo chmod 755 /etc/cron.daily/no_sec_ipadd
+
+----------------------------------------------------------------------------------
+
+HOL-04: http://172.20.132.250/
+SAN-01: http://172.20.144.250/
+RAI-01: http://172.20.142.122/
+
+------------------------------------------------------------
+
+which python3 ---> Path to python3 interpreter
+
+---------------------------------------------------------------
+
+Script to remove sec ip address
+
+sudo nano /etc/cron.daily/no_sec_ipadd
+
+#!/bin/bash
+
+/usr/sbin/dhclient -r
+
+/usr/sbin/dhclient -r
+
+/usr/sbin/dhclient ens160
+
+
+sudo chown root:root /etc/cron.daily/no_sec_ipadd
+sudo chmod 755 /etc/cron.daily/no_sec_ipadd
+
+---------------------------------------------------------------------
+
+pip3 install netmiko --upgrade
+
+pip3 install --upgrade pip
+
+-----------------------------------------------------------
+
+The $PATH directory
+
+echo $PATH to check out which folders are in our $PATH directory:
+
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+You could technically add your script to any of your listed folders, but convention holds that we should list them in /usr/local/path.
+
+Another way to allow the shell to access our script is to add the containing folder to our $PATH. Add the following code to your ~/.bash_profile. This is the file that gets run every time you start a new shell. 
+
+PATH=$PATH:/path/to/our/scripts
+export PATH
+
+-----------------------------------------------------------------------
+CRON
+
+crontab -e
+
+00 10,21 * * * /usr/sbin/dhclient -r && /usr/sbin/dhclient ens160
+
+crontab -l
+
+------------------------------------------------------------------------
+
+https://maps.google.com/maps?q=26.085256,-77.536358  --> Castaway ke query on confluence widget
+
+------------------------------------------------------------------------------------
+
+Creating shorter files out of a big one 
+
+sudo apt install p7zip-full
+
+7z a -v50m -mx0 ubuntu.7z ubuntu-20.04.2-live-server-amd64.iso
+
+- To transmit manually:
+apt install sshpass
+
+sshpass -p mtn33024 scp ubuntu.7z.001  administrator@10.200.8.21:/home/administrator/Images/temp/
+sshpass -p mtn33024 scp ubuntu.7z.002  administrator@10.200.8.21:/home/administrator/Images/temp/
+sshpass -p mtn33024 scp ubuntu.7z.003  administrator@10.200.8.21:/home/administrator/Images/temp/ 
+etc..
+
+- To re-build
+7z e ubuntu.7z.001
+
+- Check hash of rebuilded file and compare with original
+md5sum ubuntu-20.04.2-live-server-amd64.iso
+
+---------------------------------------------------------------------------
+
+Path variable:
+
+echo $PATH
+
+ln [-sf] [source] [destination] --> Symbolic link
+
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+
+----------------------------------------------------------------------------
+
+How to clone a VM
+
+- Check the Harddisk name of the cloning VM 
+    datastore1] BW_Test_TG_1/BW_Test_TG_1.vmdk
+
+- Go to datastore browser locate the HD 
+
+- Create a new directory for new VM
+
+- Copy files .vmx and .vmdk to new directory
+
+- Right-click on .vmx file and select Register VM
+
+- In the VM section now have two similar VMs. Check the HD name to determine which one is the new one
+
+- Change the name of new VM
+
+- Run it and select I copied
+
+--------------------------------------------------------------------------------------
+
+ls -lrt|awk '{print $9}' ---> Prints the 9th file of the ls -lrt command
+
+---------------------------------------------------------------------------------------
+
+Kron for IOS and IOS-XE
+
+kron policy-list conf_bkp
+ cli show running-config | redirect tftp://172.20.130.122/GE_HUB1_HRT1.ATL
+ cli show running-config | redirect tftp://172.20.142.122/GE_HUB1_HRT1.ATL
+!
+kron occurrence conf_bkp_Schedule at 3:59 recurring
+ policy-list conf_bkp
+!
+
+kron policy-list conf_bkp
+ cli show running-config | redirect tftp://172.20.130.122/GE_HUB1_HRT2.ATL
+ cli show running-config | redirect tftp://172.20.142.122/GE_HUB1_HRT2.ATL
+!
+kron occurrence conf_bkp_Schedule at 3:59 recurring
+ policy-list conf_bkp
+!
+
+IF on a mgmt interface (vlan 2), use the command: ip tftp source-interface GigabitEthernet0/0    
+------------------------------------------------------------------------------------------------
+
+Scheduler for NX-OS
+
+feature scheduler
+scheduler logfile size 64
+scheduler aaa-authentication username oscarl password huemac86  
+scheduler job name backup-config
+copy  running-config tftp://172.20.130.122/GE_HUB1_SW1.ATL vrf default
+copy  running-config tftp://172.20.142.122/GE_HUB1_SW1.ATL vrf default
+!
+scheduler schedule name Daily_Bkp
+time daily 3:59
+job name backup-config
+!
+
+feature scheduler
+scheduler logfile size 64
+scheduler aaa-authentication username oscarl password huemac86
+scheduler job name backup-config
+copy  running-config tftp://172.20.130.122/GE_HUB1_SW2.ATL vrf default
+copy  running-config tftp://172.20.142.122/GE_HUB1_SW2.ATL vrf default
+!
+scheduler schedule name Daily_Bkp
+time daily 3:59
+job name backup-config
+!
+
+
+show scheduler config
+
+---------------------------------------------------------------------------------------------------- 
+
+FOR LAB:
+
+Adding a hostname in the tftp file
+
+sudo touch GE_HUB1_INT_HRT1.MIR
+sudo chown tftp GE_HUB1_INT_HRT1.MIR
+sudo chgrp tftp GE_HUB1_INT_HRT1.MIR
+sudo chmod 666 GE_HUB1_INT_HRT1.MIR
+
+sudo touch GE_HUB1_INT_SW1.MIR
+sudo chown tftp GE_HUB1_INT_SW1.MIR
+sudo chgrp tftp GE_HUB1_INT_SW1.MIR
+sudo chmod 666 GE_HUB1_INT_SW1.MIR
+
+kron policy-list conf_bkp
+ cli show running-config | redirect tftp://10.214.8.121/MIR/GE_HUB1_INT_HR1.MIR
+ cli show running-config | redirect tftp://172.16.100.55/MIR/GE_HUB1_INT_HRT1.MIR
+!
+
+kron occurrence conf_bkp_Schedule at 17:40 recurring
+ policy-list conf_bkp
+!
+
+Adding OpsEngIP User:
+
+sudo useradd -m OpsEngIP
+sudo passwd OpsEngIP
+Gl0ba1_2021!
+sudo usermod -aG sudo OpsEngIP
+sudo usermod -s /bin/bash OpsEngIP
+
+---------------------------------------------------------------------------------------------------
+Adding a hostname in the tftp file
+
+sudo touch MIR_iDX_LAB_LAN.sw
+sudo chown tftp MIR_iDX_LAB_LAN.sw
+sudo chgrp tftp MIR_iDX_LAB_LAN.sw
+sudo chmod 666 MIR_iDX_LAB_LAN.sw
+
+------------------------------------------------------------------------------------------------------
+ 
+Set up SSH Keys 
+
+- On devnet Server Create key pair
+
+   ssh-keygen -t rsa
+
+
+- Copy the public key in remote ELK server as authorized_keys in ~/.ssh/ 
+
+ scp $HOME/.ssh/id_rsa.pub administrator@172.20.128.123:~/.ssh/authorized_keys
+
+
+Gl0b@l3agle$
+
+----------------------------------------------------------------------------------------------------------
+
+Installing Webmin
+
+sudo apt update
+sudo apt upgrade
+sudo apt install software-properties-common apt-transport-https
+sudo wget -q http://www.webmin.com/jcameron-key.asc -O- | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] http://download.webmin.com/download/repository sarge contrib"
+sudo apt install webmin
+
+sudo systemctl status webmin
+
+---------------------------------------------------------------------------------------------------
+
+uptime -s or last reboot
+
+-------------------------------------------------------------------------------
+
+Upgrade 18.04 to 20.04
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt --purge autoremove -y
+sudo apt install update-manager-core -y
+sudo shutdown -r now
+sudo do-release-upgrade 
+---------------------------------------------------------------------------------------------
+
+apt commands:
+
+sudo apt list
+sudo apt purge apache2
+sudo apt clean
+sudo apt autoremove
+sudo apt -f install
+ 
+--------------------------------------------------------------------
+
+sudo systemctl status cron.service
+
+run-parts -v /etc/cron.daily ---> Runs the jobs in cron
+
+---------------------------------------------------------------------------------------------
+
+WEB Test
+
+hostname -I
+Output: 172.20.156.121 10.111.61.252 10.111.60.124 10.111.59.60
+
+curl -4 icanhazip.com
+Output: 216.7.159.249
+
+
+To check resources utilization: source cliente dest server
+
+- $ free
+- $ htop (apt install)
+
+loader > boot bootflash:nxos.9.2.1.bin
+
+-------------------------------------------------------------------------------------
+Upgrading ESXi from Rel.6.0 to 6.7 
+
+- Enable SSH 
+- Right click host and select Enter maintenance mode
+- upload the offline Bundle to datastore
+- Type esxcli software sources profile list -d /vmfs/volumes/datastore1/VMware-ESXi-7.0U3-18644231-depot.zip
+ and pick a profile, in this case standard is choosen
+- type esxcli software profile update -p ESXi-6.7.0-8169922-standard -d /vmfs/volumes/datastore1/VMware-ESXi-6.7.0-8169922-depot.zip
+- Reboot
+- Exit maintenance mode
+
+----------------------------------------------------------------------------
+Upgrading to Ubuntu 22
+
+sudo apt update
+sudo apt upgrade
+sudo apt dist-upgrade -y
+sudo apt autoremove
+sudo apt autoclean
+sudo reboot
+
+sudo apt install update-manager-core
+sudo do-release-upgrade
+
+Ubuntu disables any third-party repositories during the upgrade. To search for disabled repositories, switch to the sources.list.d directory and list the entries.
+
+cd /etc/apt/sources.list.d
+ls -l
+
+Edit each list using a text editor. Remove the # symbol at the start of the affected entries, and save the file. In the following example, remove the # symbol in front of deb [arch=amd64].
+
+---------------------------------------------------------------------------------
+
+Ansible playbook command:
+
+ansible-playbook reboot.yaml -i inventory.yaml
+
+------------------------------------------------------------------------------------------
+Finding files in linux
+
+locate <file>
+which <file>
+cd ..
+--------------------------------------------------------------------------------
+
+Last Reboot
+
+last reboot | head -1
+
+
+=============================================================
+HD De-encryption code
+
+253539-159819-209297-128645-447986-177298-581977-586322
+
+
+-----------------------------------------------------------------------------
+How to enable SNMP on Palo Alto firewalls
+
+
+    Navigate to Device > Setup > Operations.
+    In the lower right corner, click SNMP Setup.
+
+Enabling SNMP on the Management interface
+
+    Navigate to Device > Setup > Management. 
+    Click the Management Interface Settings button.
+    Check the SNMP box.
+
+
+----------------------------------------------------------------------------------
+Enable SNMP on Linux VMs
+ 
+sudo apt update
+sudo apt install snmpd
+sudo nano /etc/snmp/snmpd.conf
+
+agentAddress udp:161,udp6:[::1]:161
+
+view systemonly included .1.3.6.1.2.1
+view systemonly included .1.3.6.1.4.1
+
+rocommunity icghol
+rocommunity6 icghol
+
+
+sudo service snmpd restart
+sudo service snmpd status
+
+sudo iptables -A INPUT -s 172.16.172.188 -p udp -m udp --dport 161 -j ACCEPT
+sudo iptables -A OUTPUT -p udp -m udp --sport 161 -j ACCEPT
+
+------------------------------------------------------------------------------------------------------------------------
+
+ansible-playbook reboot.yaml -i inventory.yaml
+
+----------------------------------------------------------------------------------
+
+Netplan Ubuntu 22.04  ENK_Sniffer_2.0
+
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens160:
+      addresses:
+        - 10.217.16.235/24
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+      routes:
+        - to: default
+          via: 10.217.16.1
+
+----------------------------------------------------------------------------------
+
+free -m  ---> Shows RAM memory used
+
+-------------------------------------------------------------------------------------
+
+Increasing Size of main Partition on ENK Servers
+
+Before: df -h
+
+- Open Disks Utility
+- Select Filesystem of 50G
+- Hit settings
+- Choose resize
+- Increase size to 500G
+- Hit Resize
+
+After: df -h
+
+-------------------------------------------------------------------------------------
+
+Checking if life time policy is added to template in kibana via DevTools console:
+
+GET ntopng-*/_ilm/explain
+
+-----------------------------------------------------------------------------------
+
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+
+https://bi-applications.anuvu.com/backend/index.php
+
+
+------------------------------------------------------------------------------------------
+
+Copying files from GitHub to linux subdirectory:
+
+
+
+Copy the specific file's raw link from GitHub.(As you open the file in Github (Click on it), on the top right corner you can see the option to open the file in raw mode. Open it in raw mode and copy the URL)
+
+https://raw.githubusercontent.com/olg33/NetData_Scripts/master/PortChanTraffic.html
+
+On Ubuntu type:
+
+sudo curl -o PortChanTraffic.html https://raw.githubusercontent.com/olg33/NetData_Scripts/master/PortChanTraffic.html
+
+sudo curl -o BW_Viewer.html https://raw.githubusercontent.com/olg33/ND_IO_Files/f9cc7e6ac6106ae232b6e6c676e4ec0628d22b77/bwtest.html
+
+-----------------------------------------------------------------------------------------------------------------
+
+sudo ifconfig ens224 promisc
+sudo ifconfig ens256 promisc
+
+Installing netdata:
+
+wget -O /tmp/netdata-kickstart.sh https://get.netdata.cloud/kickstart.sh && sh /tmp/netdata-kickstart.sh --no-updates --stable-channel --disable-telemetry
+
+cd /var/lib/netdata/www/ ---> New
+
+cd /usr/share/netdata/web/  --->old
+ 
+
+
+C:\Program Files\VMware\VMware OVF Tool
+
+ps -ax | grep fping
+
+--------------------------------------------------------------------------
+
+IF Need browser when on Ubuntu Server:
+- download browser:
+sudo apt install chromium-browser
+
+- Install util for browser run:
+sudo apt install xdg-utils
+
+Try:
+
+xdg-open https://code.visualstudio.com/
+or
+x-www-browser https://code.visualstudio.com/
+
+-------------------------------------------------------------------------
+Uses of locate
+
+First update db:
+
+sudo updatedb
+
+Argument	Description	                 Example
+-i	Ignores case sensitivity	                locate -i FileName.txt
+-l	Limits the number of outputs	                locate -l 5 FileName.txt
+-b	Matches only the base filename	                locate -b \FileName.txt
+-S	Provides statistics about the database	        locate -S
+-e	Only print entries that exist	                locate -e FileName.txt
+-L	Follow symbolic links	                        locate -L FileName.txt
+-P	Do not follow symbolic links	                locate -P FileName.txt
+-A	Matches only files that match all patterns	locate -A FileName.txt Project.txt
+-r	Uses regex pattern	                        locate -r FileName[1-3].txt
+-q	Quiet mode, suppresses error messages	        locate -q FileName.txt
+-n	Stops after finding ‘N’ files	                locate -n 10 FileName.txt
+-------------------------------------------------------------------------------------
+
+cd /etc/netdata 2>/dev/null || cd /opt/netdata/etc/netdata   ----> Configure plugin
+sudo ./edit-config go.d/ping.conf  ----> Configure Plugin
+sudo ./edit-config go.d.conf ----> Enable collector
+modules:
+  ping: yes
+-----------------------------------------------------------------------------------
+
+wget -O /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
+
+sudo systemctl restart netdata
+sudo systemctl stop netdata
+
+------------------------------------------------------------------------------
+
+files .sh are run by typing ./file.sh
+(Make sure the file is executable (chmod u=rwx file.sh)) or 777
+
+ /home/oscar/anaconda3/bin
+
+source $HOME/miniconda3/bin/activate' >> ~/.bashrc
+
+-------------------------------------------------------------------------------
+    esxcli system snmp set --communities=icghol
+        esxcli system snmp set --enable=true
+
+--------------------------------------------------------------------------------
+Copying single files from GitHub to a directory:
+
+Copy te URL of the raw file an then use wget or curl to download the file: 
+
+wget https://raw.githubusercontent.com/olg33/BW_Viewer/main/BW_Viewer_Template.html
+
+-------------------------------------------------------------------------------------
+
+Enabling Copy/Paste on ESXi
+
+- VM Optios
+- Advanced
+- Edit configuration
+- Add Parameter (3 times)
+
+isolation.tools.copy.disable          FALSE
+isolation.tools.paste.disable         FALSE
+isolation.tools.setGUIOptions.enable  TRUE
+
+--------------------------------------------------------------------------------------
+IF Need browser when on Ubuntu Server:
+- download browser:
+sudo apt install chromium-browser
+
+- Install util for browser run:
+sudo apt install xdg-utils
+
+Try:
+
+xdg-open https://code.visualstudio.com/
+or
+x-www-browser https://code.visualstudio.com/
+
+------------------------------------------------------------------------------------------------------------
+
+Steps for configuring and enabling SNMP on ESXi Host
+
+        esxcli system snmp set --communities=icghol
+        esxcli system snmp set --enable=true
+------------------------------------------------------------------------------------------
+Disabling an eternet interface using ifconfig
+
+sudo ifconfig [Interface name] down
+
+-----------------------------------------------------------------------------------
+PROXMOX
+root@pve:~# cat /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+iface ens6f0 inet manual
+
+iface ens6f1 inet manual
+
+iface eno1 inet manual
+
+iface eno2 inet manual
+
+iface eno3 inet manual
+
+iface eno4 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+        address 10.152.32.50/24
+        gateway 10.152.32.1
+        bridge-ports eno1
+        bridge-stp off
+        bridge-fd 0
+
+source /etc/network/interfaces.d/*
+
+-------------------------------------------------------------------------------------------
+
+How to restart Network interface Debian
+
+systemctl restart ifup@<interface>
+systemctl restart ifup@enp1s0
+
+------------------------------------------------------------------------------------
+PROXMOX adding no subsc repository
+Modify root@mtnsat:~# nano /etc/apt/sources.list.d/pve-enterprise.list
+with:
+#deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise
+deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+
+Modify root@mtnsat:~# nano /etc/apt/sources.list.d/ceph.list
+with:
+#deb https://enterprise.proxmox.com/debian/ceph-quincy bookworm enterprise
+deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription
+
+apt upgrade
+
+history
+
+
+ps -ef | grep gnome
+---------------------------------------------------------------------------------------
+Migrating an OVA fie to Proxmox VM
+
+# tar -xvf cloudguard.ova
+# cd /var/lib/vz/template/ovas/
+qm importovf 101 PA-VM-ESX-11.0.1.ovf local-lvm --dryrun
+# qm importovf 101 PAOVA.ovf local-lvm --> For PA modify HD and add serial ort (See word Doc)
+# qm importdisk 101 PAOVA.vmdk local-lvm 
+# add nics manually
+-------------------------------------------------------------------------
+How to change your password in Linux
+    Type passwd and tap Enter.
+---------------------------------------------------------------------------------
+Adding CDP to Proxmox
+
+sudo apt install lldpd
+sudo nano /etc/default/lldpd
+remove hash on this line DAEMON_ARGS="-x -c -s -e"
+sudo systemctl restart lldpd
+lldpcli show neighbors
+
+-----------------------------------------------------------------
+How do I change my username?    
+Login with your old credentials and add a new user, e.g. "temporary" in TTY1:
+   sudo adduser temporary
+   set the password
+Allow the temporary user to run sudo by adding the user to sudo group:
+   sudo adduser temporary sudo
+
+Login as temporary adn modify the name:
+sudo usermod -l newUsername oldUsername
+sudo groupmod -n newUsername oldUsername
+
+To change home-folder, use
+sudo usermod -d /home/newHomeDir -m newUsername
+
+Finally Delete temporary user and folder:
+sudo deluser temporary
+sudo rm -r /home/temporary
+
+------------------------------------------------------------------------------------------
+
+Adding vlan trunk on Proxmox
+
+access VM subdir:
+
+cd /etc/pve/local/qemu-server
+look for 100.conf file
+
+net0: e1000-BC,trunks=1251;1252
+
+
+
+
