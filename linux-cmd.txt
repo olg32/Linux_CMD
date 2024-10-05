@@ -1,4 +1,17 @@
-Linux Tools
+New PWDs:
+Administrator / Gl0b@l3agle$
+opsengip / Gl0ba1_2021! ---> ENK
+OpsEngIP / Gl0ba1_2021! ---> BWT
+
+OLD PW:
+administrator / oeIP2019! --> BWT
+administrator / mtn33024 --> ENK
+
+PW: $B@ld_3agle$
+
+sudo nano /etc/netplan/01-network-manager-all.yaml
+sudo nano /etc/netplan/00-installer-config.yaml ---> Ubuntu server
+
 
 Copy/Paste/Cut Text in Nano
 To mark a text press Ctrl + ^ then move the cursors with the arrow keys. 
@@ -2178,11 +2191,11 @@ python3 setup.py install
 - Creating new local repository
    crate repository in GitHub
    Clone it in local subdirectory
-   git clone https://github.com/olg32/Math_Python1.git 
+   git clone https://github.com/olg32/New_VM.git 
    git init --> No need, only if reinitializing
    git add .
    git status ---> shows files and folders included
-   git config user.email oscar.lopez@anuvu.com
+   git config user.email olg8510@gmail.com
    git commit -m "first commit" 
    git status
 
@@ -2190,12 +2203,13 @@ python3 setup.py install
 
    Now add token:
 
-   git remote set-url origin https://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@github.com/olg32/Statistics_For_Data
+   git remote set-url origin https://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@github.com/olg32/New_VM
    git push origin main
 
    if main -> main    DONE!
 
 
+git remote set-url origin https://github.com/olg32/Linux_CMD
  
 ----------------------------------------------------------
 Adding promiscuous and ifb interfaces
@@ -4363,6 +4377,33 @@ cd /etc/pve/local/qemu-server
 look for 100.conf file
 
 net0: e1000-BC,trunks=1251;1252
+
+------------------------------------------------------------------------------------------------------
+
+Installing Wine to run Windows apps in Ubuntu
+ 
+sudo apt wine
+
+-----------------------------------------------------------------
+
+move to home directory: cd ~
+
+------------------------------------------------
+
+To know the version of an app:
+
+<app name> --version 
+
+-------------------------------------------------------------------------------
+Enabling RDP
+
+- Install Xubuntu https://xubuntu.org/download/
+  sudo apt install xfce4-goodies
+  sudo apt install xrdp -y
+
+  reboot
+ 
+
 
 
 
