@@ -4403,8 +4403,85 @@ Enabling RDP
 
   reboot
  
+--------------------------------------------------------------------------------
+Enabling SNMP on PROXMOX (Debian)
+
+apt install snmpd
+apt install snmp
+Edit the file: /etc/snmp/snmpd.conf 
+add:
+# IPV4 Setup
+agentAddress udp:161
+rocommunity icghol
+
+Comment the line:
+#agentAddress udp:127.0.0.1:161
+#rocommunity  public default -V systemonly
+#rocommunity6 public default -V systemonly
+
+systemctl restart snmpd or service snmpd restart
+
+-------------------------------------------------------------------------
+free -m ----> RAM memory
+df -h ------> HD
+fdisk -l ---> HD
+
+--------------------------------------------------------------------------------
+Configuring VLANs in Netpan:
+
+# MIR03LNX
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens18:
+      addresses:
+        - 10.152.32.51/24
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+      routes:
+        - to: default
+          via: 10.152.32.1
+  ethernets:
+    ens19:
+      dhcp4: no
+      dhcp6: no
+
+  vlans:
+    vlan10:
+      id: 10
+      link: ens19
+      addresses: [10.10.10.51/24]
+
+    vlan20:
+      id: 20
+      link: ens19
+      addresses: [10.10.20.51/24]
+
+    vlan30:
+      id: 30
+      link: ens19
+      dhcp4: yes
+      dhcp6: no
+
+Before typing sudo netplan apply, enter:
+
+systemctl start systemd-resolved.service
+systemctl enable systemd-resolved.service
+$ cd /etc/netplan
+$ sudo chmod 600 *.yaml
+--------------------------------------------------------------------------------------
+Configuring DHCP
+
+sudo apt install isc-dhcp-server
+sudo nano /etc/dhcp/dhcpd.conf
 
 
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.10 192.168.1.50;
+  option routers 192.168.1.1;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+}
 
-
-
+sudo systemctl restart isc-dhcp-server
+sudo systemctl status isc-dhcp-server
