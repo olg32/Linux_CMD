@@ -1,14 +1,3 @@
-New PWDs:
-Administrator / Gl0b@l3agle$
-opsengip / Gl0ba1_2021! ---> ENK
-OpsEngIP / Gl0ba1_2021! ---> BWT
-
-OLD PW:
-administrator / oeIP2019! --> BWT
-administrator / mtn33024 --> ENK
-
-PW: $B@ld_3agle$
-
 sudo nano /etc/netplan/01-network-manager-all.yaml
 sudo nano /etc/netplan/00-installer-config.yaml ---> Ubuntu server
 
@@ -830,12 +819,7 @@ network:
           addresses: [10.10.10.1, 1.1.1.1]
 
 -------------------------------------------------------
-
-ESXi Teleports license: 1N617-AU29J-J8U81-093K6-0RW0N
-
-                        JJ415-FU3D3-J8K80-03C8M-ATW5J
-
------------------------------------------------------------
+ 
  
 VMWare Player and Device/Credential Guard is not compatible :
 
@@ -854,29 +838,6 @@ ssh root@<Server's IP address>
 On Ubuntu, you can start the ssh server on the Droplet by typing:
 
     sudo service ssh start
-
-
---------------------------------------------------------------------------
-
-LXD Container
-
-Before a container is created type:
-
-lxd init
-
-lxc launch ubuntu:16.04 Test ---> Creates container
-
-lxc start Test
-
-lxc list ---> Shows the list of containers
-
-lxc exec Test -- /bin/bash
-
-lxc stop Test
-
-lxc delete Test
-
-lxc profile list ---> Shows the lsit of profiles
 
 --------------------------------------------------------------
 
@@ -938,10 +899,6 @@ network:
 sudo netplan generate
 sudo netplan apply
 
-
-
---------------------------------------------------------------------------
-ESxi 6.7 License:  	00490-0ULE1-K8489-0K32K-1WE75
  
 -----------------------------------------------------------------------------------------
 
@@ -4471,7 +4428,7 @@ systemctl enable systemd-resolved.service
 $ cd /etc/netplan
 $ sudo chmod 600 *.yaml
 --------------------------------------------------------------------------------------
-Configuring DHCP
+Configuring DHCP server in Ubuntu
 
 sudo apt install isc-dhcp-server
 sudo nano /etc/dhcp/dhcpd.conf
@@ -4485,3 +4442,49 @@ subnet 192.168.1.0 netmask 255.255.255.0 {
 
 sudo systemctl restart isc-dhcp-server
 sudo systemctl status isc-dhcp-server
+
+------------------------------------------------------------------------------------------------
+CONFIGURING A LINUX SRV LIKE A ROUTER (Packet Forwarding)
+
+Check Current IP Forwarding Status Before proceeding:
+cat /proc/sys/net/ipv4/ip_forward
+
+Enable IP Forwarding Permanantly:
+sudo nano /etc/sysctl.conf
+
+Uncomment or add line:
+net.ipv4.ip_forward=1
+
+Then, apply the changes:
+sudo sysctl -p /etc/sysctl.conf
+
+Apply Network Configuration Changes:
+sudo systemctl restart networking
+
+
+------------------------------------------------------------------------------------------
+ENABLING NAT
+
+sudo apt install iptables
+Enable IP Forwarding
+sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -----> interface to internet
+sudo iptables -A FORWARD -i eth1 -j ACCEPT --------> Interface to LAN
+Save changes:
+sudo sh -c “iptables-save > /etc/iptables.rules
+
+
+-----------------------------------------------------------------------------------------
+netstat -rn
+ip route get 1.1.1.1
+
+vlans:
+vlan1000:
+    id: 1000
+    link: enp0s31f6
+    addresses: [ "172.16.100.2/30" ]
+    routes:
+      - to: 0.0.0.0/0
+      via: 192.168.100.2
+      metric: 100
